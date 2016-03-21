@@ -1,0 +1,45 @@
+Formigas.h
+
+estrutura PosFormiga, armazena a posição na matriz onde a formiga viva está.
+
+
+Variáveis Globais
+
+	* Raio: é o valor inteiro que simboliza a campo de visão do agente, pois formigas possuem uma visão limitada. 
+
+	* FormigasVivas: armazena o número total de agentes, ou seja, Formigas vivas.   
+
+	* FormigasMortas: armazena o número total de itens, ou seja, Formigas mortas.
+
+	* Tam: correspondem ao tamanho do ambiente, onde é representado como uma matriz Tam x Tam. 
+
+	* Ncelulas: guarda o valor de quantas celulas o agente possue em seu campo de visão, esse valor muda de acordo com o Raio dado.  
+
+	* MatrizMortas: Matriz onde estará dispostas as formigas mortas.	
+
+	* MatrizVivas: Matriz onde estará os agentes. 
+
+
+
+Funções 
+
+	* void CalcularNumeroDeCelulas(); 
+		Calcula o número de celulas que agente possue em seu campo de visão com a seguinte equação (4 * r^2 + 4 * r) tal que r é o raio dado.  
+
+	* void InicializarMatrizes();
+		Inicializa as matrizes MatrizMortas e MatrizVivas, posicionando as formigas em posições aleatórias, tal que é garantido que não será colocado mais de uma formiga morta em uma unica célula. 
+		Depois é inicializado um vetor com as posições das formigas vivas na matriz. 
+
+	* void DecidirPegarLargar();
+		Onde haverá regras de decisão sobre pegar e sobre largar item;
+
+
+Definição do Ambiente
+	Matriz M x M.
+	Cada posição i e j da matriz,  A(i, j) é uma unidade de celula.
+
+	Uso de duas Matrizes, uma para mortas e outra para vivas, com intuito de monter a informação se há uma viva na mesma celula com item. Poderia usar struct mas, deu preguiça.
+
+
+
+
