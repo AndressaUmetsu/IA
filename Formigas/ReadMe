@@ -1,7 +1,6 @@
 Formigas.h
 
-estrutura PosFormiga, armazena a posição na matriz onde a formiga viva está.
-
+estrutura Ponto, armazena a posição da formiga na matriz 
 
 Variáveis Globais
 
@@ -16,9 +15,9 @@ Variáveis Globais
 	* Ncelulas: guarda o valor de quantas celulas o agente possue em seu campo de visão, esse valor muda de acordo com o Raio dado.  
 
 	* MatrizMortas: Matriz onde estará dispostas as formigas mortas.	
-
 	* MatrizVivas: Matriz onde estará os agentes. 
 
+	* PosViva: vetor das formigas vivas, cada posição guardará o ponto onde a formiga está.
 
 
 Funções 

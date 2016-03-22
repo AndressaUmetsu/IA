@@ -5,11 +5,10 @@
 #define MORTO 1 
 #define VIVO 1
 
-typedef struct ponto{
+typedef struct formiga{
 	int x, y;
 	int item;	
-} Ponto;
-
+} Formiga;
 
 // Variáveis Globais
 int Raio; 
@@ -26,14 +25,15 @@ int **MatrizMortas;
 
 int **MatrizVivas;
 
-Ponto *PosViva;
+Formiga *VetFormiga;
 
-// Funções 
 void CalcularNumeroDeCelulas (); 
 
 void InicializarMatriz();
 
 void DecidirPegarLargar();
+
+int ContarVizinhasMortas ( int n );
 
 void MovimentarFormiga(int n);
 
@@ -43,7 +43,9 @@ int **AlocarMatriz ();
 
 void AbrirArquivo();
 
-void ImprimirMatriz( int **matriz, char str[15]);
+void ImprimirMatrizArq( int **matriz, char str[15]);
+
+void ImprimirMatriz( int **matriz, char str[15] );
 
 void ImprimirVetor ();
 

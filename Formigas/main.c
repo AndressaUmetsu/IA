@@ -21,11 +21,16 @@ int main( int argc, char const *argv[] ){
 
 	InicializarMatriz();
 	
-	while( 1 ){
+	while( i < 10000 ){
+		//ImprimirMatrizArq( MatrizMortas, "Matriz Mortas");
 		ImprimirMatriz( MatrizMortas, "Matriz Mortas");
 		//ImprimirMatriz( MatrizVivas, "Matriz Vivas" );
 		DecidirPegarLargar();
-		//i++;
+		printf("%d\n",i);
+		i++;
 	}
+	Liberar();
 	return 0;
 }
+
+
