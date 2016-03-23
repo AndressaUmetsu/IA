@@ -21,12 +21,15 @@ int main( int argc, char const *argv[] ){
 
 	InicializarMatriz();
 	
-	while( i < 10000 ){
+	while( i <= 6 ){
+		printf("\nIteração %d\n",i);
 		//ImprimirMatrizArq( MatrizMortas, "Matriz Mortas");
-		ImprimirMatriz( MatrizMortas, "Matriz Mortas");
-		//ImprimirMatriz( MatrizVivas, "Matriz Vivas" );
+		//if (i % 10 == 0){
+			 ImprimirMatrizArq( MatrizMortas, "Matriz Mortas");
+			 ImprimirMatrizArq( MatrizVivas, "Matriz Vivas" );
+			 ImprimirVetor();
+		//}
 		DecidirPegarLargar();
-		printf("%d\n",i);
 		i++;
 	}
 	Liberar();

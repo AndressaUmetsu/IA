@@ -27,13 +27,13 @@ int **MatrizVivas;
 
 Formiga *VetFormiga;
 
-void CalcularNumeroDeCelulas (); 
+void CalcularNumeroDeCelulas (); //ok
 
-void InicializarMatriz();
+void InicializarMatriz();  // ok
 
 void DecidirPegarLargar();
 
-int ContarVizinhasMortas ( int n );
+int ContarVizinhasMortas ( int n );  // ok
 
 void MovimentarFormiga(int n);
 
