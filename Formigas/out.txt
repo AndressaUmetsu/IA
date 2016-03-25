@@ -1,98 +1,98 @@
 Matriz Mortas
-X	-	-	X	-	
--	X	X	X	-	
+X	-	-	-	X	
+-	-	-	X	-	
+-	-	X	X	-	
+-	X	-	X	-	
 X	X	-	X	-	
-X	-	-	-	-	
-X	-	-	-	-	
 
 Matriz Vivas
--	-	-	-	-	
--	-	-	X	-	
--	-	-	-	-	
 -	-	-	-	-	
 -	-	X	-	-	
+-	-	-	-	-	
+-	-	-	-	-	
+X	-	-	-	-	
 
 Matriz Mortas
-X	-	-	X	-	
--	X	X	-	-	
-X	X	-	X	-	
-X	-	-	-	-	
-X	-	-	-	-	
-
-Matriz Vivas
--	-	-	-	-	
--	-	-	-	-	
+X	-	-	-	X	
 -	-	-	X	-	
--	-	-	-	-	
--	X	-	-	-	
-
-Matriz Mortas
-X	-	-	X	-	
--	X	X	-	-	
-X	X	-	X	-	
-X	-	-	-	-	
-X	-	-	-	-	
-
-Matriz Vivas
--	-	-	-	-	
--	-	-	-	-	
--	-	-	-	-	
--	-	-	X	-	
-X	-	-	-	-	
-
-Matriz Mortas
-X	-	-	X	-	
--	X	X	-	-	
-X	X	-	X	-	
-X	-	-	-	-	
--	-	-	-	-	
-
-Matriz Vivas
--	-	-	-	-	
--	-	-	-	-	
--	-	-	-	-	
--	-	-	-	-	
+-	-	X	X	-	
+-	X	-	X	-	
 -	X	-	X	-	
 
-Matriz Mortas
-X	-	-	X	-	
--	X	X	-	-	
-X	X	-	X	-	
-X	-	-	-	-	
--	-	-	-	-	
-
 Matriz Vivas
--	-	-	-	-	
--	-	-	-	-	
--	-	-	-	-	
--	-	-	-	-	
-X	-	X	-	-	
-
-Matriz Mortas
-X	-	-	X	-	
--	X	X	-	-	
-X	X	-	X	-	
-X	-	-	-	-	
--	-	-	-	-	
-
-Matriz Vivas
--	-	-	-	-	
--	-	-	-	-	
--	-	-	-	-	
-X	-	-	-	-	
--	X	-	-	-	
-
-Matriz Mortas
-X	-	-	X	-	
--	X	X	-	-	
-X	X	-	X	-	
-X	-	-	-	-	
--	-	-	-	-	
-
-Matriz Vivas
--	-	-	-	-	
+-	-	-	X	-	
 -	-	-	-	-	
 -	-	-	-	-	
 -	X	-	-	-	
+-	-	-	-	-	
+
+Matriz Mortas
+X	-	-	-	X	
+-	-	-	X	-	
+-	-	X	X	-	
+-	X	-	X	-	
+-	X	-	X	-	
+
+Matriz Vivas
+-	-	-	-	X	
+-	-	-	-	-	
+-	-	X	-	-	
+-	-	-	-	-	
+-	-	-	-	-	
+
+Matriz Mortas
 X	-	-	-	-	
+-	-	-	X	-	
+-	-	X	X	-	
+-	X	-	X	-	
+-	X	-	X	-	
+
+Matriz Vivas
+-	-	-	-	-	
+-	-	-	X	X	
+-	-	-	-	-	
+-	-	-	-	-	
+-	-	-	-	-	
+
+Matriz Mortas
+X	-	-	-	-	
+-	-	-	X	-	
+-	-	X	X	-	
+-	X	-	X	-	
+-	X	-	X	-	
+
+Matriz Vivas
+-	-	-	-	X	
+-	-	-	-	-	
+-	-	-	-	X	
+-	-	-	-	-	
+-	-	-	-	-	
+
+Matriz Mortas
+X	-	-	-	-	
+-	-	-	X	-	
+-	-	X	X	-	
+-	X	-	X	-	
+-	X	-	X	-	
+
+Matriz Vivas
+-	-	-	-	-	
+-	-	-	-	X	
+-	-	-	-	-	
+-	-	-	-	X	
+-	-	-	-	-	
+
+Matriz Mortas
+X	-	-	-	-	
+-	-	-	X	-	
+-	-	X	X	-	
+-	X	-	X	-	
+-	X	-	X	-	
+
+Matriz Vivas
+-	-	-	-	-	
+-	-	-	-	-	
+-	-	-	-	X	
+-	-	-	-	-	
+-	-	-	-	X	
 

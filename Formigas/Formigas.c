@@ -4,10 +4,46 @@
 
 FILE *Arq;
 
-void CalcularNumeroDeCelulas (){
-	Ncelulas = 4 * Raio * Raio + 4 * Raio;
-	printf( "Numero de celulas no campo de visão %d\n",Ncelulas );
+ void CalcularNumeroDeCelulas ( int n ){
+ 	int i, j;
+ 	i = VetFormiga[n].x;
+ 	j = VetFormiga[n].y;
+ 	
+ 	// canto 
+ 	if (  ){
+
+
+ 	}
+
+
+
 }
+
+int EstiverCanto (int x, int y){
+	switch ( x ){
+		case 0:
+			
+			if ( y == y )
+				return 1; //verdade
+
+			if ( y == Tam-1 )
+				return 1;
+
+		case Tam-1:
+
+			if ( y == 0)
+			 	return 1;
+
+			if ( y == y )  
+			 	return 1;
+		
+		default :
+			return 0;
+	return 0;
+}
+
+
+
 
 void InicializarMatriz(){
  	int i, j, n = 0; 
@@ -59,6 +95,9 @@ void DecidirPegarLargar(){
 		i = VetFormiga[n].x;
 		j = VetFormiga[n].y;
 
+		CalcularNumeroDeCelulas( n );
+		ContarVizinhasMortas( n );
+
 		/* Formiga sem item */
 		if ( VetFormiga[n].item  == VAZIO ){ 
 
@@ -75,7 +114,7 @@ void DecidirPegarLargar(){
 				vontadeDaFormiga = rand() % 101;
 				printf("vontade Da Formiga %d porcentagem %lf %%\n", vontadeDaFormiga, porcentagem );
 				 // Decisão para pegar
-				if ( vontadeDaFormiga >= porcentagem ){ 
+				if ( vontadeDaFormiga <= porcentagem ){ 
 					printf("Pegar item\n");
 					VetFormiga[n].item = MORTO;
 					MatrizMortas[i][j] = VAZIO; 
@@ -100,7 +139,7 @@ void DecidirPegarLargar(){
 				vontadeDaFormiga = rand() % 101;
 				printf("vontade Da Formiga %d porcentagem %lf %%\n", vontadeDaFormiga, porcentagem );
 				//Decisão de largar 
-				if ( vontadeDaFormiga <= porcentagem ){ // Larga
+				if ( vontadeDaFormiga >= porcentagem ){ // Larga
 					printf("Largando item\n");
 					VetFormiga[n].item = VAZIO;
 					MatrizMortas[i][j] = MORTO; 
@@ -113,7 +152,7 @@ void DecidirPegarLargar(){
  }
 
 int ContarVizinhasMortas ( int n ){
-	int i, j, xi, yi, xf, yf, cont = -1;
+	int i, j, xi, yi, xf, yf, cont = 0, contCel = 0;
 
 	xi = VetFormiga[n].x - Raio; 
 	if ( xi < 0 )	
@@ -133,12 +172,13 @@ int ContarVizinhasMortas ( int n ){
 
 	for ( i = xi; i <= xf; i++ ){
 		for ( j = yi; j <= yf; j++ ){
+			contCel++;
 			if ( MatrizMortas[i][j] == MORTO )
 				cont++;			
 		}
 	}
 
-	printf("número de vizinhas %d\n",cont );
+	printf("número de vizinhas %d em %d \n",cont, contCel );
 
 	return cont; 
 }
@@ -255,3 +295,41 @@ void Liberar(){
 	free ( MatrizVivas );
 	free ( VetFormiga );
 	}
+
+
+// Testes controlados
+
+/*void TestePegar (){
+	int i, j, n = 0; 
+
+ 	MatrizMortas = AlocarMatriz ();
+
+ 	while( n < FormigasMortas ){
+ 		i = rand() % Tam;  j = rand() % Tam;
+
+ 		if ( MatrizMortas[i][j] != MORTO ){
+ 			MatrizMortas[i][j] = MORTO;
+ 			n++;
+ 		}
+ 	}
+
+ 	n = 0;
+
+ 	MatrizVivas = AlocarMatriz ();
+ 	VetFormiga = ( Formiga *) malloc ( FormigasVivas * sizeof( Formiga ) );
+
+ 	while( n < FormigasVivas ){
+ 		i = rand() % Tam;  j = rand() % Tam;
+
+ 		if ( MatrizVivas[i][j] != VIVO ){
+ 			MatrizVivas[i][j] = VIVO;
+ 			VetFormiga[n].x = i;
+ 			VetFormiga[n].y = j; 
+ 			VetFormiga[n].item = VAZIO;
+ 			n++;
+ 		}
+  	}	*/
+
+
+
+

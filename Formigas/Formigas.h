@@ -27,7 +27,7 @@ int **MatrizVivas;
 
 Formiga *VetFormiga;
 
-void CalcularNumeroDeCelulas (); //ok
+void CalcularNumeroDeCelulas (int n); //ok
 
 void InicializarMatriz();  // ok
 

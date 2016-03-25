@@ -17,7 +17,7 @@ int main( int argc, char const *argv[] ){
 
 	AbrirArquivo();
 
-	CalcularNumeroDeCelulas();
+	
 
 	InicializarMatriz();
 	
