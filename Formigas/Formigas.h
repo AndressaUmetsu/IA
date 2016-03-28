@@ -7,8 +7,12 @@
 
 typedef struct formiga{
 	int x, y;
-	int item;	
+	int item;	 
 } Formiga;
+
+typedef struct ponto{
+	int x, y;
+} Ponto;
 
 // Variáveis Globais
 int Raio; 
@@ -19,36 +23,42 @@ int FormigasMortas;
 
 int Tam; 			
 
-int Ncelulas;
-
 int **MatrizMortas;
 
 int **MatrizVivas;
 
 Formiga *VetFormiga;
 
-void CalcularNumeroDeCelulas (int n); //ok
-
-void InicializarMatriz();  // ok
+void AbrirArquivo(); //OK
 
 void DecidirPegarLargar();
 
-int ContarVizinhasMortas ( int n );  // ok
+void MovimentarFormiga(int n); //OK
 
-void MovimentarFormiga(int n);
+double Porcentagem ( int n ); // OK
 
-int VerificarMovimento(int i, int j, int n);
+// Funções Verificações
 
-int **AlocarMatriz ();
+int MovimentoInvalido(int i, int j, int n); //OK
 
-void AbrirArquivo();
+int VerificarParedes ( int ponto ); //OK
 
-void ImprimirMatrizArq( int **matriz, char str[15]);
+// Funções Geradoras rand
 
-void ImprimirMatriz( int **matriz, char str[15] );
+Ponto GerarMovimento(); //OK
 
-void ImprimirVetor ();
+// Funções Manipulação de matriz
 
-void Liberar();
+int **AlocarMatriz (); //OK
+
+void InicializarMatriz(); //OK
+
+void ImprimirMatrizArq( int **matriz, char str[15]); //OK
+
+void ImprimirMatriz( int **matriz, char str[15] ); //OK
+
+void ImprimirVetor (); //OK
+
+void Liberar(); //OK
 
 #endif 

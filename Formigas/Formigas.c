@@ -4,46 +4,201 @@
 
 FILE *Arq;
 
- void CalcularNumeroDeCelulas ( int n ){
- 	int i, j;
- 	i = VetFormiga[n].x;
- 	j = VetFormiga[n].y;
- 	
- 	// canto 
- 	if (  ){
-
-
- 	}
-
-
-
+void AbrirArquivo(){
+	Arq = fopen ( "out.txt", "wt" );
+	if ( !Arq )
+		printf( "Erro ao abrir o arquivo texto\n" );
 }
 
-int EstiverCanto (int x, int y){
-	switch ( x ){
-		case 0:
+void DecidirPegarLargar(){
+	int n, i, j;
+	double evento;
+
+	for ( n = 0; n < FormigasVivas; n++ ){
+
+		i = VetFormiga[n].x;
+		j = VetFormiga[n].y;
+
+		switch (VetFormiga[n].item) {
+			case VAZIO:
+
+				/* Posição com célula vazia */			
+				if( MatrizMortas[ i ][ j ] == VAZIO ){
+					MovimentarFormiga( n );
+				}
 			
-			if ( y == y )
-				return 1; //verdade
+				/* Posição com item morto */
+				else{
+					evento = ( rand() % 100 );
 
-			if ( y == Tam-1 )
-				return 1;
+					/* Decisão para pegar */					
+					if ( evento >= Porcentagem( n ) ){ 
+						VetFormiga[n].item = MORTO;
+						MatrizMortas[i][j] = VAZIO; 
+					}
 
-		case Tam-1:
+					MovimentarFormiga( n );
+				}
 
-			if ( y == 0)
-			 	return 1;
+			break;
+			
+			case MORTO:
+			
+				/* Posição com item morto */
+				if ( MatrizMortas[ i ][ j ] == MORTO ){
+					MovimentarFormiga( n );
+				}
 
-			if ( y == y )  
-			 	return 1;
-		
-		default :
-			return 0;
-	return 0;
+				/* Posição com celular vazia*/	
+				else{ 
+					evento = ( rand() % 101 );
+
+					/*Decisão de largar*/ 
+					if ( evento <= Porcentagem( n ) ){ 
+						VetFormiga[n].item = VAZIO;
+						MatrizMortas[i][j] = MORTO; 
+					}
+				
+					MovimentarFormiga( n );
+				}
+
+			break;
+		}
+	}
 }
 
+void MovimentarFormiga( int n ){
+	Ponto p;
+	int semente, max = 0;
+	
+	do {
+		semente = ( rand() % 100 ) + 1;
+		semente = ( semente * 7 ) % 11;
+		p = GerarMovimento( semente % 8 );	
+		max++;
+	} while ( MovimentoInvalido( p.x, p.y, n ) && max < 30); 
 
+	if (max < 30)
+	{
+		MatrizVivas[VetFormiga[n].x][VetFormiga[n].y] = VAZIO;
+		VetFormiga[n].x += p.x;
+		VetFormiga[n].y += p.y;
+		MatrizVivas[VetFormiga[n].x][VetFormiga[n].y] = VIVO;
+	}
 
+}
+
+double Porcentagem ( int n ){
+	int i, j, xi, yi, xf, yf;
+	double cont = 0, contCel = 0;
+
+	xi = VerificarParedes ( VetFormiga[n].x - Raio );
+	
+	yi = VerificarParedes ( VetFormiga[n].y - Raio );
+		
+	xf = VerificarParedes ( VetFormiga[n].x + Raio );
+
+	yf = VerificarParedes ( VetFormiga[n].y + Raio );
+
+	for ( i = xi; i <= xf; i++ ){
+		for ( j = yi; j <= yf; j++ ){
+				
+			if ( MatrizMortas[i][j] == MORTO )
+				cont++;		
+			contCel++;
+		}
+	}
+
+	// numero de celulas vazias por numero de
+	//contCel = (2*Raio+1)*(2*Raio+1);
+	return ( ( cont ) / contCel ) * 100;   
+}
+
+int MovimentoInvalido(int i, int j, int n){
+	int x, y;
+
+	x = VetFormiga[n].x + i;
+	y = VetFormiga[n].y + j;
+
+	/*Movimento invalido*/
+	if ( ( x < 0 ) || ( y < 0 ) || ( x >= Tam ) || ( y >= Tam ) || MatrizVivas[x][y] == VIVO ){
+		return 1;
+
+	return 0;
+	}
+}
+
+int VerificarParedes ( int ponto ){
+	if ( ponto < 0 ) 
+		return 0;
+
+	if ( ponto >= Tam )
+		return Tam-1;
+
+	return ponto;
+}
+
+Ponto GerarMovimento(int semente){
+	Ponto movimento;
+		switch ( semente ){
+			case 0:
+				movimento.x = -1;
+				movimento.y = -1;
+				break;
+			case 1:
+				movimento.x = -1;
+				movimento.y = 0;
+				break;
+			case 2:
+				movimento.x = -1;
+				movimento.y = 1;
+				break;
+			case 3:
+				movimento.x = 0;
+				movimento.y = -1;
+				break;
+			case 4:
+				movimento.x = 0;
+				movimento.y = 1;
+				break;
+			case 5:
+				movimento.x = 1;
+				movimento.y = -1;
+				break;
+			case 6:
+				movimento.x = 1;
+				movimento.y = 0;
+				break;
+			case 7:
+				movimento.x = 1;
+				movimento.y = 1;
+				break;
+		}
+	return movimento;
+}
+
+int **AlocarMatriz (){
+	int i, j;
+    int **matriz = NULL;
+
+    matriz = ( int ** ) malloc( Tam * sizeof( int * ) );
+    if( !matriz ){
+        printf( "Erro: problemas na Alocação!\n" );
+        exit( 1 );
+    }
+
+    for( i = 0; i < Tam; i++ ){
+        matriz[i] = ( int * ) malloc( Tam * sizeof( int ) );
+        if ( !matriz[i] ){
+            printf( "Erro: problemas na Alocação!\n" );
+            exit( 1 );
+        }
+        for( j = 0; j < Tam; j++ )
+            matriz[i][j] = VAZIO;
+    }
+    
+    return matriz;
+}
 
 void InicializarMatriz(){
  	int i, j, n = 0; 
@@ -78,184 +233,15 @@ void InicializarMatriz(){
   	}
 }
 
-void DecidirPegarLargar(){
-	int n, i, j, vontadeDaFormiga;
-	double porcentagem;
-
-	srand( ( unsigned )time( NULL ) );
-
-	for ( n = 0; n < FormigasVivas; n++ ){
-		printf("Formiga viva %d ", n);
-
-		if (VetFormiga[n].item == VAZIO)
-			printf(" VAZIO \n");
-		else 	
-			printf(" COM ITEM \n");		
-		
-		i = VetFormiga[n].x;
-		j = VetFormiga[n].y;
-
-		CalcularNumeroDeCelulas( n );
-		ContarVizinhasMortas( n );
-
-		/* Formiga sem item */
-		if ( VetFormiga[n].item  == VAZIO ){ 
-
-			/* Posição com célula vazia */			
-			if( MatrizMortas[ i ][ j ] == VAZIO ){
-				printf("Formiga sem item e em celula vazia \n");
-				MovimentarFormiga( n );
-			}
-			
-			/* Posição com item morto */
-			else{
-				printf("Tem item\n");
-				porcentagem = ( double ) ContarVizinhasMortas( n ) * 100 / Ncelulas;
-				vontadeDaFormiga = rand() % 101;
-				printf("vontade Da Formiga %d porcentagem %lf %%\n", vontadeDaFormiga, porcentagem );
-				 // Decisão para pegar
-				if ( vontadeDaFormiga <= porcentagem ){ 
-					printf("Pegar item\n");
-					VetFormiga[n].item = MORTO;
-					MatrizMortas[i][j] = VAZIO; 
-				}
-
-				MovimentarFormiga( n );
-			}
-
-		/* Formiga com item */	
-		} else {
-
-			/* Posição com item morto */
-			if ( MatrizMortas[ i ][ j ] == MORTO ){
-				printf("Formiga com item e em celula com item \n");
-				MovimentarFormiga( n );
-			}
-			/* Posição com celular vazia*/	
-			else{ 
-				printf("celula vazia\n");
-				porcentagem = ( double ) ContarVizinhasMortas( n ) *100 / Ncelulas;
-				
-				vontadeDaFormiga = rand() % 101;
-				printf("vontade Da Formiga %d porcentagem %lf %%\n", vontadeDaFormiga, porcentagem );
-				//Decisão de largar 
-				if ( vontadeDaFormiga >= porcentagem ){ // Larga
-					printf("Largando item\n");
-					VetFormiga[n].item = VAZIO;
-					MatrizMortas[i][j] = MORTO; 
-				}
-				
-				MovimentarFormiga( n );
-			}
-		}
-	}
- }
-
-int ContarVizinhasMortas ( int n ){
-	int i, j, xi, yi, xf, yf, cont = 0, contCel = 0;
-
-	xi = VetFormiga[n].x - Raio; 
-	if ( xi < 0 )	
-		xi = 0;
-
-	yi = VetFormiga[n].y - Raio;
-	if ( yi < 0 )	
-		yi = 0;
-	
-	xf = xi + ( 2 * Raio );
-	if ( xf >= Tam )	
-		xf = Tam - 1 ;
-
-	yf = yi + ( 2 * Raio );
-	if ( yf >= Tam )	
-		yf = Tam - 1 ;
-
-	for ( i = xi; i <= xf; i++ ){
-		for ( j = yi; j <= yf; j++ ){
-			contCel++;
-			if ( MatrizMortas[i][j] == MORTO )
-				cont++;			
-		}
-	}
-
-	printf("número de vizinhas %d em %d \n",cont, contCel );
-
-	return cont; 
-}
-
-void MovimentarFormiga( int n ){
-	int i, j;
-	srand( ( unsigned )time( NULL ) );
-
-	printf("formiga andando\n");
-
-	do {
-		i = ( rand() % 3 ) - 1;
-		j = ( rand() % 3 ) - 1;
-		printf("movimento %d %d \n", i, j );
-	} while ( VerificarMovimento( i, j, n ) );
-
-	MatrizVivas[VetFormiga[n].x][VetFormiga[n].y] = VAZIO;
-
-	VetFormiga[n].x += i;
-	VetFormiga[n].y += j;
-
-	MatrizVivas[VetFormiga[n].x][VetFormiga[n].y] = VIVO;
-}
-
-int VerificarMovimento(int i, int j, int n){
-	int x, y;
-
-	x = VetFormiga[n].x + i;
-	y = VetFormiga[n].y + j;
-
-	if ( ( x >= 0 ) && ( y >= 0 ) && ( x < Tam ) && ( y < Tam ) && MatrizVivas[x][y] != VIVO )
-		return 0; // Movimento válido
-	else {
-		printf("Movimento invalido\n");
-		return 1;
-	}
-}
-
-int **AlocarMatriz (){
-	int i, j;
-    int **matriz = NULL;
-
-    matriz = ( int ** ) malloc( Tam * sizeof( int * ) );
-    if( !matriz ){
-        printf( "Erro: problemas na Alocação!\n" );
-        exit( 1 );
-    }
-
-    for( i = 0; i < Tam; i++ ){
-        matriz[i] = ( int * ) malloc( Tam * sizeof( int ) );
-        if ( !matriz[i] ){
-            printf( "Erro: problemas na Alocação!\n" );
-            exit( 1 );
-        }
-        for( j = 0; j < Tam; j++ )
-            matriz[i][j] = VAZIO;
-    }
-    
-    return matriz;
-}
-
-void AbrirArquivo(){
-	Arq = fopen ( "out.txt", "wt" );
-	if ( !Arq )
-		printf( "Erro ao abrir o arquivo texto\n" );
-
-}
-
 void ImprimirMatrizArq( int **matriz, char str[15] ){
     int i, j;
     fprintf( Arq, "%s\n", str );
     for( i = 0; i < Tam; i++ ){
         for( j = 0; j < Tam; j++ ){
         	if ( matriz[i][j] == 1 )
-	            fprintf( Arq, "X\t" );
+	            fprintf( Arq, "X" );
             else 
-	            fprintf( Arq, "-\t" );
+	            fprintf( Arq, "-" );
         }
         fprintf( Arq, "\n" );
     }
@@ -278,10 +264,10 @@ void ImprimirMatriz( int **matriz, char str[15] ){
     printf( "\n" );
 }
 
-void ImprimirVetor (){
+void ImprimirVetor(){
 	int i;
 	for ( i = 0; i < FormigasVivas; i++ ){
-		printf( "(%d, %d)\n",VetFormiga[i].x, VetFormiga[i].y );
+		printf( "(%d, %d) = %d\n",VetFormiga[i].x, VetFormiga[i].y, VetFormiga[i].item );
 	}
 }
 
@@ -294,42 +280,6 @@ void Liberar(){
 	free ( MatrizMortas );
 	free ( MatrizVivas );
 	free ( VetFormiga );
-	}
-
-
-// Testes controlados
-
-/*void TestePegar (){
-	int i, j, n = 0; 
-
- 	MatrizMortas = AlocarMatriz ();
-
- 	while( n < FormigasMortas ){
- 		i = rand() % Tam;  j = rand() % Tam;
-
- 		if ( MatrizMortas[i][j] != MORTO ){
- 			MatrizMortas[i][j] = MORTO;
- 			n++;
- 		}
- 	}
-
- 	n = 0;
-
- 	MatrizVivas = AlocarMatriz ();
- 	VetFormiga = ( Formiga *) malloc ( FormigasVivas * sizeof( Formiga ) );
-
- 	while( n < FormigasVivas ){
- 		i = rand() % Tam;  j = rand() % Tam;
-
- 		if ( MatrizVivas[i][j] != VIVO ){
- 			MatrizVivas[i][j] = VIVO;
- 			VetFormiga[n].x = i;
- 			VetFormiga[n].y = j; 
- 			VetFormiga[n].item = VAZIO;
- 			n++;
- 		}
-  	}	*/
-
-
-
+	fclose(Arq);
+}
 

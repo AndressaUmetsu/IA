@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Formigas.h"
 
+void teste ();
 
 int main( int argc, char const *argv[] ){
 	int i = 0;
@@ -17,23 +18,17 @@ int main( int argc, char const *argv[] ){
 
 	AbrirArquivo();
 
-	
-
 	InicializarMatriz();
-	
-	while( i <= 6 ){
-		printf("\nIteração %d\n",i);
-		//ImprimirMatrizArq( MatrizMortas, "Matriz Mortas");
-		//if (i % 10 == 0){
-			 ImprimirMatrizArq( MatrizMortas, "Matriz Mortas");
-			 ImprimirMatrizArq( MatrizVivas, "Matriz Vivas" );
-			 ImprimirVetor();
-		//}
-		DecidirPegarLargar();
+
+	ImprimirMatrizArq( MatrizMortas, "Matriz Inicial");
+
+	while( i <= 150000 ){
+		ImprimirMatriz( MatrizMortas, "Matriz Mortas");
+		DecidirPegarLargar();	
 		i++;
 	}
+	ImprimirMatrizArq( MatrizMortas, "Matriz Final");
+	ImprimirVetor();
 	Liberar();
 	return 0;
 }
-
-
