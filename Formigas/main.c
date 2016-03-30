@@ -23,7 +23,7 @@ int main( int argc, char const *argv[] ){
 
 	ImprimirMatrizArq( MatrizMortas, "Matriz Inicial");
 
-	while( i <= 20000000 ){
+	while( i <= 1000000 ){
 		//ImprimirMatriz( MatrizMortas, "Matriz Mortas");
 		DecidirPegarLargar();	
 		i++;
