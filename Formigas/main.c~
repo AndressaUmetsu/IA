@@ -5,7 +5,6 @@
 void teste ();
 
 int main( int argc, char const *argv[] ){
-	srand(time(NULL));
 	int i = 0;
 	if ( argc < 5 ){
 		printf ( "Erro! Falta de argumentos\n" );
