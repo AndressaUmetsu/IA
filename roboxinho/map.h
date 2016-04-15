@@ -1,1 +1,3 @@
-void printfImage(int **);
+#include "main.h"
+
+void printfImage(_square **);

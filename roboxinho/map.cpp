@@ -3,7 +3,7 @@
 
 #include "map.h"
 
-void printfImage(int **map){
+void printfImage(_square **map){
     static int k = 0;
     
     FILE *out = fopen("out.svg", "wt");
@@ -33,14 +33,30 @@ void printfImage(int **map){
             fprintf(out, "%d", (i*scale));
             fprintf(out, "\" cy=\"");
             fprintf(out, "%d", (j*scale));
-            if        (map[i][j] == 0){
+            if        (map[i][j].type == 0){
                     fprintf(out, "\" r=\"%d\" stroke=\"olivedrab\" stroke-width=\"1\" fill=\"olivedrab\"/>\n", scale/2);
-            } else if (map[i][j] == 1){
+            } else if (map[i][j].type == 1){
                     fprintf(out, "\" r=\"%d\" stroke=\"saddlebrown\" stroke-width=\"1\" fill=\"saddlebrown\"/>\n", scale/2);
-            } else if (map[i][j] == 2){
+            } else if (map[i][j].type == 2){
                     fprintf(out, "\" r=\"%d\" stroke=\"deepskyblue\" stroke-width=\"1\" fill=\"deepskyblue\"/>\n", scale/2);
-            } else if (map[i][j] == 3){
+            } else if (map[i][j].type == 3){
                     fprintf(out, "\" r=\"%d\" stroke=\"darkred\" stroke-width=\"1\" fill=\"darkred\"/>\n", scale/2);
+            }
+
+            if ( map[i][j].visited ) {
+                fprintf(out, "<circle cx=\"");
+                fprintf(out, "%d", (i*scale));
+                fprintf(out, "\" cy=\"");
+                fprintf(out, "%d", (j*scale));
+                fprintf(out, "\" r=\"%d\" stroke=\"lawngreen\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
+            }
+
+            if ( map[i][j].path ) {
+                fprintf(out, "<circle cx=\"");
+                fprintf(out, "%d", (i*scale));
+                fprintf(out, "\" cy=\"");
+                fprintf(out, "%d", (j*scale));
+                fprintf(out, "\" r=\"%d\" stroke=\"black\" stroke-width=\"1\" fill=\"black\"/>\n", scale/5);
             }
         }
     }

@@ -4,27 +4,47 @@
 #include <cstdlib>
 
 #include "map.h"
+#include "main.h"
+#include "dfs.h"
 
 int main(int argc, char const *argv[]) {
     FILE *file = fopen("Robo_ambiente.txt", "rt");
     int width = 42;
     int heigth = 42;
+    _pos start_pos;
+    _pos end_pos;
 
-    int **map;
+    _square **map;
 
-    map = (int**) malloc ( sizeof(int*) * width );
+    if ( argc != 5 ) {
+        fprintf(stderr, "nononon bizonho\n");
+    } else {
+        start_pos.x = atoi(argv[1]);
+        start_pos.y = atoi(argv[2]);
+        end_pos.x   = atoi(argv[3]);
+        end_pos.y   = atoi(argv[4]);
+    }
+
+    map = (_square**) malloc ( sizeof(_square*) * width );
     for ( int i = 0 ; i < 42 ; i++ )
-        map[i] = (int*) malloc ( sizeof(int) * heigth );
+        map[i] = (_square*) malloc ( sizeof(_square) * heigth );
 
     int hue;
 
-    for ( int i = 0 ; i < 42 ; i++ ){
-        for ( int j = 0 ; j < 42 ; j++ ){
+    for ( int i = 0 ; i < 42 ; i++ ) {
+        for ( int j = 0 ; j < 42 ; j++ ) {
             fscanf(file, "%d", &hue);
-            map[j][i] = hue;
+            map[j][i].type    = hue;
+            map[j][i].visited = false;
+            map[j][i].path    = false;
+            map[j][i].x       = -1;
+            map[j][i].y       = -1;
+            printf("%d ", hue);
         }
         puts("");
     }
+
+    dfs(map, start_pos, end_pos);
 
     printfImage(map);
 
