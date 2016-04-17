@@ -6,6 +6,7 @@
 #include "map.h"
 #include "main.h"
 #include "dfs.h"
+#include "bfs.h"
 
 int main(int argc, char const *argv[]) {
     FILE *file = fopen("Robo_ambiente.txt", "rt");
@@ -44,7 +45,9 @@ int main(int argc, char const *argv[]) {
         puts("");
     }
 
-    dfs(map, start_pos, end_pos);
+    //dfs(map, start_pos, end_pos);
+ 
+    Bfs(map, start_pos, end_pos);
 
     printfImage(map);
 

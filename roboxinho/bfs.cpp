@@ -1,22 +1,19 @@
 #include "main.h"
-#include <vector>
+#include <queue>
 #include <cstdio>
 #include <cstdlib>
 
-void dfs(_square** map, _pos start, _pos stop) {
-    std::vector<_pos> stack;
+void Bfs ( _square** map, _pos start, _pos stop ){
+	std::queue <_pos> myqueue;
     
-    //map[start.x][start.y].visited = true;
-    map[start.x][start.y].path    = true;
+    map[start.x][start.y].path = true;
 
-    stack.push_back(start);
+    myqueue.push(start);
     _pos pos;
 
-    while ( stack.size() > 0 ) {
-        printf("stack size: %d\n", stack.size());
-        pos = stack.back();
-        stack.pop_back();
-        printf("%d %d\n", pos.x, pos.y);
+    while ( myqueue.size() > 0 ) {
+        pos = myqueue.front();
+        myqueue.pop();
 
         if ( !map[pos.x][pos.y].visited ) {
             map[pos.x][pos.y].visited = true;
@@ -30,7 +27,7 @@ void dfs(_square** map, _pos start, _pos stop) {
             if ( pos.x > 0 ) {
                 next.x = pos.x - 1;
                 next.y = pos.y;
-                stack.push_back(next);
+                myqueue.push(next);
 
                 if ( !map[pos.x-1][pos.y].visited ) {
                     map[pos.x-1][pos.y].x = pos.x;
@@ -41,7 +38,7 @@ void dfs(_square** map, _pos start, _pos stop) {
             if ( pos.y < 41 ) {
                 next.x = pos.x;
                 next.y = pos.y + 1;
-                stack.push_back(next);
+                myqueue.push(next);
 
                 if ( !map[pos.x][pos.y+1].visited ) {
                     map[pos.x][pos.y+1].x = pos.x;
@@ -52,7 +49,7 @@ void dfs(_square** map, _pos start, _pos stop) {
             if ( pos.x < 41 ) {
                 next.x = pos.x + 1;
                 next.y = pos.y;
-                stack.push_back(next);
+                myqueue.push(next);
 
                 if ( !map[pos.x+1][pos.y].visited ) {
                     map[pos.x+1][pos.y].x = pos.x;
@@ -63,7 +60,7 @@ void dfs(_square** map, _pos start, _pos stop) {
             if ( pos.y > 0 ) {
                 next.x = pos.x;
                 next.y = pos.y - 1;
-                stack.push_back(next);
+                myqueue.push(next);
 
                 if ( !map[pos.x][pos.y-1].visited ) {
                     map[pos.x][pos.y-1].x = pos.x;
@@ -81,5 +78,4 @@ void dfs(_square** map, _pos start, _pos stop) {
         //printf("%d %d  -- %d %d\n", pos.x, pos.y, start.x, start.y);
     }
 
-    return;
 }
