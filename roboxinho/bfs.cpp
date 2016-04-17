@@ -24,17 +24,28 @@ void Bfs ( _square** map, _pos start, _pos stop ){
 
             _pos next;
 
-            if ( pos.x > 0 ) {
-                next.x = pos.x - 1;
+            if ( pos.y > 0 ) {
+                next.x = pos.x;
+                next.y = pos.y - 1;
+                myqueue.push(next);
+
+                if ( !map[pos.x][pos.y-1].visited ) {
+                    map[pos.x][pos.y-1].x = pos.x;
+                    map[pos.x][pos.y-1].y = pos.y;
+                }
+            }
+            
+            if ( pos.x < 41 ) {
+                next.x = pos.x + 1;
                 next.y = pos.y;
                 myqueue.push(next);
 
-                if ( !map[pos.x-1][pos.y].visited ) {
-                    map[pos.x-1][pos.y].x = pos.x;
-                    map[pos.x-1][pos.y].y = pos.y;
+                if ( !map[pos.x+1][pos.y].visited ) {
+                    map[pos.x+1][pos.y].x = pos.x;
+                    map[pos.x+1][pos.y].y = pos.y;
                 }
             }
-
+            
             if ( pos.y < 41 ) {
                 next.x = pos.x;
                 next.y = pos.y + 1;
@@ -46,25 +57,14 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                 }
             }
 
-            if ( pos.x < 41 ) {
-                next.x = pos.x + 1;
+            if ( pos.x > 0 ) {
+                next.x = pos.x - 1;
                 next.y = pos.y;
                 myqueue.push(next);
 
-                if ( !map[pos.x+1][pos.y].visited ) {
-                    map[pos.x+1][pos.y].x = pos.x;
-                    map[pos.x+1][pos.y].y = pos.y;
-                }
-            }
-
-            if ( pos.y > 0 ) {
-                next.x = pos.x;
-                next.y = pos.y - 1;
-                myqueue.push(next);
-
-                if ( !map[pos.x][pos.y-1].visited ) {
-                    map[pos.x][pos.y-1].x = pos.x;
-                    map[pos.x][pos.y-1].y = pos.y;
+                if ( !map[pos.x-1][pos.y].visited ) {
+                    map[pos.x-1][pos.y].x = pos.x;
+                    map[pos.x-1][pos.y].y = pos.y;
                 }
             }
         }
