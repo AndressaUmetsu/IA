@@ -87,17 +87,12 @@ void Cu ( _square** map, _pos start, _pos stop ){
         u.clear();
     }
 
-    printf("%d %d\n",lugar.x, lugar.y );
-
-    int cost = 0;
+    printf("custo do caminho %d\n",map[lugar.x][lugar.y].cu );
 
     while ( lugar.x != start.x || lugar.y != start.y ) {
         _square aux = lugar;
-        printf("%d\n",map[aux.x][aux.y].cu );
         map[aux.x][aux.y].path = true;
-        cost += map[aux.x][aux.y].cu;
         lugar.x = map[aux.x][aux.y].xx;
         lugar.y = map[aux.x][aux.y].yy;
     }
-    printf("Custo do caminho %d\n", cost);
 }
