@@ -41,9 +41,9 @@ int main(int argc, char const *argv[]) {
             map[j][i].path    = false;
             map[j][i].x       = -1;
             map[j][i].y       = -1;
-            printf("%d ", hue);
+            //printf("%d ", hue);
         }
-        puts("");
+        //puts("");
     }
 
     //dfs(map, start_pos, end_pos);

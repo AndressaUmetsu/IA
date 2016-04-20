@@ -127,6 +127,6 @@ void Cu ( _square** map, _pos start, _pos stop ){
         map[aux.x][aux.y].path = true;
         lugar.x = map[aux.x][aux.y].xx;
         lugar.y = map[aux.x][aux.y].yy;
-        printf("%d %d %d %d %d\n", ++k, lugar.x, lugar.y, map[aux.x][aux.y].type, map[aux.x][aux.y].cu);
+        //printf("%d %d %d %d %d\n", ++k, lugar.x, lugar.y, map[aux.x][aux.y].type, map[aux.x][aux.y].cu);
     }
 }
