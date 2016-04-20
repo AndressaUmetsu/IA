@@ -6,6 +6,8 @@ typedef struct {
     bool visited;
     bool path;
     int  x, y;
+    int  xx, yy;
+    int  cu;
 } _square;
 
 typedef struct {
