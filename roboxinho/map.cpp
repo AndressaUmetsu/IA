@@ -66,16 +66,16 @@ void printfImage(_square **map, _pos start, _pos stop ){
         }
     }
 
-    //_pos pos = stop;
+    _pos pos = stop;
 
-    //do {
-        //_pos bos = pos;
-        //pos.x = map[bos.x][bos.y].xx;
-        //pos.y = map[bos.x][bos.y].yy;
-        //if ( pos.x != start.x || pos.y != start.y ) {
-            //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
-        //}
-    //} while ( pos.x != start.x || pos.y != start.y );
+    do {
+        _pos bos = pos;
+        pos.x = map[bos.x][bos.y].xx;
+        pos.y = map[bos.x][bos.y].yy;
+        if ( pos.x != start.x || pos.y != start.y ) {
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
+        }
+    } while ( pos.x != start.x || pos.y != start.y );
 
     //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (start.x * scale - 5), (start.y * scale - 5), (start.x * scale + 5), (start.y * scale + 5)) ;
     fprintf(out, "</svg>\n");

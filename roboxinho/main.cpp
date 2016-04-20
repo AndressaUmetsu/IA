@@ -19,7 +19,7 @@ int main(int argc, char const *argv[]) {
     _square **map;
 
     if ( argc != 5 ) {
-        fprintf(stderr, "nononon bizonho\n");
+        fprintf(stderr, "Faltam parametros\n");
     } else {
         start_pos.x = atoi(argv[1]);
         start_pos.y = atoi(argv[2]);
@@ -41,6 +41,8 @@ int main(int argc, char const *argv[]) {
             map[j][i].path    = false;
             map[j][i].x       = -1;
             map[j][i].y       = -1;
+            map[j][i].xx      = -1;
+            map[j][i].yy      = -1;
             //printf("%d ", hue);
         }
         //puts("");

@@ -30,8 +30,8 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                 myqueue.push(next);
 
                 if ( !map[pos.x][pos.y-1].visited ) {
-                    map[pos.x][pos.y-1].x = pos.x;
-                    map[pos.x][pos.y-1].y = pos.y;
+                    map[pos.x][pos.y-1].xx = pos.x;
+                    map[pos.x][pos.y-1].yy = pos.y;
                 }
             }
             
@@ -41,8 +41,8 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                 myqueue.push(next);
 
                 if ( !map[pos.x+1][pos.y].visited ) {
-                    map[pos.x+1][pos.y].x = pos.x;
-                    map[pos.x+1][pos.y].y = pos.y;
+                    map[pos.x+1][pos.y].xx = pos.x;
+                    map[pos.x+1][pos.y].yy = pos.y;
                 }
             }
             
@@ -52,8 +52,8 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                 myqueue.push(next);
 
                 if ( !map[pos.x][pos.y+1].visited ) {
-                    map[pos.x][pos.y+1].x = pos.x;
-                    map[pos.x][pos.y+1].y = pos.y;
+                    map[pos.x][pos.y+1].xx = pos.x;
+                    map[pos.x][pos.y+1].yy = pos.y;
                 }
             }
 
@@ -63,8 +63,8 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                 myqueue.push(next);
 
                 if ( !map[pos.x-1][pos.y].visited ) {
-                    map[pos.x-1][pos.y].x = pos.x;
-                    map[pos.x-1][pos.y].y = pos.y;
+                    map[pos.x-1][pos.y].xx = pos.x;
+                    map[pos.x-1][pos.y].yy = pos.y;
                 }
             }
         }
@@ -84,8 +84,8 @@ void Bfs ( _square** map, _pos start, _pos stop ){
 
         map[bos.x][bos.y].path = true;
         custo_total += custo;
-        pos.x = map[bos.x][bos.y].x;
-        pos.y = map[bos.x][bos.y].y;
+        pos.x = map[bos.x][bos.y].xx;
+        pos.y = map[bos.x][bos.y].yy;
         //printf("%d %d  -- %d %d\n", pos.x, pos.y, start.x, start.y);
     }
 
