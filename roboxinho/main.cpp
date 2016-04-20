@@ -46,11 +46,11 @@ int main(int argc, char const *argv[]) {
         //puts("");
     }
 
-    //dfs(map, start_pos, end_pos);
+    dfs(map, start_pos, end_pos);
  
-   // Bfs(map, start_pos, end_pos);
+    //Bfs(map, start_pos, end_pos);
 
-    Cu(map, start_pos, end_pos);
+    //Cu(map, start_pos, end_pos);
 
     printfImage(map, start_pos, end_pos);
 

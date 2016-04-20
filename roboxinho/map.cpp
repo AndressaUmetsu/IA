@@ -12,6 +12,9 @@ void printfImage(_square **map, _pos start, _pos stop ){
     int sizeY = 42;
     int scale = 20;
 
+    int visitados = 0;
+    int caminho   = 0;
+
     fprintf(out, "<?xml version=\"1.0\" standalone=\"no\"?>\n");
     fprintf(out, "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n");
     fprintf(out, "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n");
@@ -44,6 +47,7 @@ void printfImage(_square **map, _pos start, _pos stop ){
             }
 
             if ( map[i][j].visited ) {
+                visitados++;
                 fprintf(out, "<circle cx=\"");
                 fprintf(out, "%d", (i*scale));
                 fprintf(out, "\" cy=\"");
@@ -52,6 +56,7 @@ void printfImage(_square **map, _pos start, _pos stop ){
             }
 
             if ( map[i][j].path ) {
+                caminho++;
                 fprintf(out, "<circle cx=\"");
                 fprintf(out, "%d", (i*scale));
                 fprintf(out, "\" cy=\"");
@@ -61,21 +66,20 @@ void printfImage(_square **map, _pos start, _pos stop ){
         }
     }
 
-    _pos pos = stop;
+    //_pos pos = stop;
 
-    do {
-        _pos bos = pos;
-        pos.x = map[bos.x][bos.y].xx;
-        pos.y = map[bos.x][bos.y].yy;
-        if ( pos.x != start.x || pos.y != start.y ) {
-            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
-        }
-    } while ( pos.x != start.x || pos.y != start.y );
+    //do {
+        //_pos bos = pos;
+        //pos.x = map[bos.x][bos.y].xx;
+        //pos.y = map[bos.x][bos.y].yy;
+        //if ( pos.x != start.x || pos.y != start.y ) {
+            //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
+        //}
+    //} while ( pos.x != start.x || pos.y != start.y );
 
-    fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (start.x * scale - 5), (start.y * scale - 5), (start.x * scale + 5), (start.y * scale + 5)) ;
-
-
-
-
+    //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (start.x * scale - 5), (start.y * scale - 5), (start.x * scale + 5), (start.y * scale + 5)) ;
     fprintf(out, "</svg>\n");
+
+    printf("Nós explorados: %d\n", visitados);
+    printf("Tamanho do caminho: %d\n", caminho);
 }

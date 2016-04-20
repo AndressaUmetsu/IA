@@ -13,10 +13,10 @@ void dfs(_square** map, _pos start, _pos stop) {
     _pos pos;
 
     while ( stack.size() > 0 ) {
-        printf("stack size: %d\n", stack.size());
+        //printf("stack size: %d\n", stack.size());
         pos = stack.back();
         stack.pop_back();
-        printf("%d %d\n", pos.x, pos.y);
+        //printf("%d %d\n", pos.x, pos.y);
 
         if ( !map[pos.x][pos.y].visited ) {
             map[pos.x][pos.y].visited = true;
@@ -73,13 +73,26 @@ void dfs(_square** map, _pos start, _pos stop) {
         }
     }
 
+    int custo_total = 0;
+
     while ( pos.x != start.x || pos.y != start.y ) {
         _pos bos = pos;
+
+        int custo = 0; 
+        if (map[pos.x][pos.y].type == 0) {
+            custo = 1;
+        } else {
+            custo = 5 * ( map[pos.x][pos.y].type);
+        }
+
         map[bos.x][bos.y].path = true;
+        custo_total += custo;
         pos.x = map[bos.x][bos.y].x;
         pos.y = map[bos.x][bos.y].y;
         //printf("%d %d  -- %d %d\n", pos.x, pos.y, start.x, start.y);
     }
+
+    printf("Custo do caminho: %d\n", custo_total);
 
     return;
 }

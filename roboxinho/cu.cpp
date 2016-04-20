@@ -119,7 +119,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
         u.clear();
     }
 
-    printf("custo do caminho %d\n",map[lugar.x][lugar.y].cu );
+    printf("Custo do caminho: %d\n",map[lugar.x][lugar.y].cu );
 
     int k =0;
     while ( lugar.x != start.x || lugar.y != start.y ) {
