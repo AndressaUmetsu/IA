@@ -52,7 +52,7 @@ int main(int argc, char const *argv[]) {
 
     Cu(map, start_pos, end_pos);
 
-    printfImage(map);
+    printfImage(map, start_pos, end_pos);
 
     return 0;
 }
