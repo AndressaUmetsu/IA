@@ -52,7 +52,7 @@ void printfImage(_square **map, _pos start, _pos stop ){
                 fprintf(out, "%d", (i*scale));
                 fprintf(out, "\" cy=\"");
                 fprintf(out, "%d", (j*scale));
-                fprintf(out, "\" r=\"%d\" stroke=\"lawngreen\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
+                fprintf(out, "\" r=\"%d\" stroke=\"aqua\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
             }
 
             if ( map[i][j].path ) {
@@ -66,15 +66,21 @@ void printfImage(_square **map, _pos start, _pos stop ){
         }
     }
 
+    for ( int i = 0 ; i < 42 ; i++ ){
+        for ( int j = 0 ; j < 42 ; j++ ){
+            if ( !map[i][j].path && map[i][j].xx != -1 ) {
+                fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:aqua;stroke-width:2\" />\n", i * scale, j * scale, map[i][j].xx * scale, map[i][j].yy * scale);
+            }
+        }
+    }
+
     _pos pos = stop;
 
     do {
         _pos bos = pos;
         pos.x = map[bos.x][bos.y].xx;
         pos.y = map[bos.x][bos.y].yy;
-        //if ( pos.x != start.x || pos.y != start.y ) {
-            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
-        //}
+        fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
     } while ( pos.x != start.x || pos.y != start.y );
 
     fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 255);stroke-width:2\" />\n", (start.x * scale - 5), (start.y * scale - 5), (start.x * scale + 5), (start.y * scale + 5)) ;
