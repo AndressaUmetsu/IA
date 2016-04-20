@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
     for ( int i = 0 ; i < 42 ; i++ ) {
         for ( int j = 0 ; j < 42 ; j++ ) {
             fscanf(file, "%d", &hue);
-            map[j][i].type    = hue;
+            map[j][i].type    = hue ;
             map[j][i].visited = false;
             map[j][i].path    = false;
             map[j][i].x       = -1;
