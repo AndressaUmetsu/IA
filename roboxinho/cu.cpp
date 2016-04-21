@@ -1,148 +1,90 @@
-#include "main.h"
+#include <algorithm>
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
-#include <algorithm>
-#include <iostream>
 
-bool CompareCu ( _square a, _square b){
-    return a.cu < b.cu;
-}
+#include "main.h"
 
-void Cu ( _square** map, _pos start, _pos stop ){
-    std::vector<_square> c;
-    std::vector<_square> u;
-
-    map[start.x][start.y].cu = 0;
-
-    for (int i = 0; i < 42; ++i)
-    {
-        for (int j = 0; j < 42; ++j)
-        {
+void InitializePosition ( _square **map ){
+    for ( int i = 0; i < 42; ++i ){
+        for ( int j = 0; j < 42; ++j ){
             map[i][j].x = i;
             map[i][j].y = j;
         }
     }
-
-     c.push_back( map[start.x][start.y] );
-
-    _square lugar;
-    int end = 0;
-
-    while ( 1 ){
-        while ( !c.empty() ) {
-            lugar = c.front();
-            c.erase( c.begin() );
-
-
-        	if ( lugar.x == stop.x && lugar.y == stop.y ){
-        		end = 1;
-        		break;    	
-        	}	
-
-            if ( lugar.y > 0  ){
-                int custo = 0;
-
-                if (map[lugar.x][lugar.y-1].type == 0) {
-                    custo = 1;
-                } else {
-                    custo = 5 * ( map[lugar.x][lugar.y-1].type);
-                }
-                
-                if (!map[lugar.x][lugar.y-1].visited)
-                    map[lugar.x][lugar.y-1].cu = map[lugar.x][lugar.y].cu + custo;
-                else 
-                    map[lugar.x][lugar.y-1].cu = map[lugar.x][lugar.y-1].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x][lugar.y-1].cu : map[lugar.x][lugar.y].cu + custo;
-
-                map[lugar.x][lugar.y-1].xx = lugar.x;
-                map[lugar.x][lugar.y-1].yy = lugar.y;
-                map[lugar.x][lugar.y-1].visited = true;
-
-                u.push_back( map[lugar.x][lugar.y-1] );
-            }
-
-            if ( lugar.x > 0 ){
-                int custo = 0;
-
-                if (map[lugar.x-1][lugar.y].type == 0) {
-                    custo = 1;
-                } else {
-                    custo = 5 * ( map[lugar.x-1][lugar.y].type);
-                }
-                
-                if (!map[lugar.x-1][lugar.y].visited)
-                    map[lugar.x-1][lugar.y].cu = map[lugar.x][lugar.y].cu + custo;
-                else 
-                    map[lugar.x-1][lugar.y].cu = map[lugar.x-1][lugar.y].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x-1][lugar.y].cu : map[lugar.x][lugar.y].cu + custo;
-
-                map[lugar.x-1][lugar.y].xx = lugar.x;
-                map[lugar.x-1][lugar.y].yy = lugar.y;
-                map[lugar.x-1][lugar.y].visited = true;
-
-                u.push_back( map[lugar.x-1][lugar.y] );
-            }
-
-            if ( lugar.x < 41 ){
-                int custo = 0;
-
-                if (map[lugar.x+1][lugar.y].type == 0) {
-                    custo = 1;
-                } else {
-                    custo = 5 * ( map[lugar.x+1][lugar.y].type);
-                }
-                                
-                if (!map[lugar.x+1][lugar.y].visited)
-                    map[lugar.x+1][lugar.y].cu = map[lugar.x][lugar.y].cu + custo;
-                else 
-                    map[lugar.x+1][lugar.y].cu = map[lugar.x+1][lugar.y].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x+1][lugar.y].cu : map[lugar.x][lugar.y].cu + custo;
-
-                map[lugar.x+1][lugar.y].xx = lugar.x;
-                map[lugar.x+1][lugar.y].yy = lugar.y;
-                map[lugar.x+1][lugar.y].visited = true;
-
-                u.push_back( map[lugar.x+1][lugar.y] );
-            }
-
-            if ( lugar.y < 41 ){
-                int custo = 0;
-
-                if (map[lugar.x][lugar.y+1].type == 0) {
-                    custo = 1;
-                } else {
-                    custo = 5 * ( map[lugar.x][lugar.y+1].type);
-                }
-                
-                if (!map[lugar.x][lugar.y+1].visited)
-                    map[lugar.x][lugar.y+1].cu = map[lugar.x][lugar.y].cu + custo;
-                else 
-                    map[lugar.x][lugar.y+1].cu = map[lugar.x][lugar.y+1].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x][lugar.y+1].cu : map[lugar.x][lugar.y].cu + custo;
-
-                map[lugar.x][lugar.y+1].xx = lugar.x;
-                map[lugar.x][lugar.y+1].yy = lugar.y;
-                map[lugar.x][lugar.y+1].visited = true;
-
-                u.push_back( map[lugar.x][lugar.y+1] );
-            }
-
-        }
-
-        if ( end )
-        	break;
-
-        std::sort (u.begin(), u.end(), CompareCu);
-
-        c = u;
-        u.clear();
-    }
-
-    printf("Custo do caminho: %d\n",map[lugar.x][lugar.y].cu );
-
-    int k =0;
-    while ( lugar.x != start.x || lugar.y != start.y ) {
-        _square aux = lugar;
-        map[aux.x][aux.y].path = true;
-        lugar.x = map[aux.x][aux.y].xx;
-        lugar.y = map[aux.x][aux.y].yy;
-        //printf("%d %d %d %d %d\n", ++k, lugar.x, lugar.y, map[aux.x][aux.y].type, map[aux.x][aux.y].cu);
-    }
 }
+
+int CostByType ( int type ){
+    if ( type == 0 ) 
+        return 1;
+    return  5 * type;
+}
+
+bool IsInFrontier ( std::vector<_square> & frontier, int x, int y ){
+    int i = 0;
+
+    while ( i < frontier.size() ){
+       // printf("verificando fronteira\n");
+        if ( frontier[i].x == x && frontier[i].y == y ){
+            frontier.erase( frontier.begin()+i );
+            break;  
+        }
+        i++;
+    }
+    return false;
+}
+
+void VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, _square father ){
+    int cost;
+    cost = CostByType( n.type );
+
+    if ( !n.visited ){
+
+        if ( !IsInFrontier( frontier, n.x, n.y ) ){
+            map[n.x][n.y].cu += cost;
+            map[n.x][n.y].xx = father.x;
+            map[n.x][n.y].yy = father.y;  
+        } else if ( map[n.x][n.x].cu > map[n.x][n.y].cu + cost ) {
+            map[n.x][n.y].cu += cost;
+            map[n.x][n.y].xx = father.x;
+            map[n.x][n.y].yy = father.y;
+        } 
+    }       
+
+    frontier.push_back( map[n.x][n.y] );        
+}
+
+bool CompareCu ( _square a, _square b ){
+    return a.cu < b.cu;
+}
+
+void Cu ( _square** map, _pos start, _pos stop ){
+    std::vector <_square> frontier;
+
+    InitializePosition ( map );
+
+    map[start.x][start.y].cu = 0;
+    frontier.push_back( map[start.x][start.y] );
+
+    while( !map[stop.x][stop.y].visited ){
+        _square expandedNode = frontier.front();
+        frontier.erase( frontier.begin() );
+
+        map[expandedNode.x][expandedNode.y].visited = true;  
+
+        if ( expandedNode.y > 0 )
+            VisitNeighbor ( map, map[expandedNode.x][expandedNode.y-1], frontier, map[expandedNode.x][expandedNode.y] );    
+
+        if ( expandedNode.x > 0 )
+            VisitNeighbor ( map, map[expandedNode.x-1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );    
+
+        if ( expandedNode.y < 41 )
+            VisitNeighbor ( map, map[expandedNode.x][expandedNode.y+1], frontier, map[expandedNode.x][expandedNode.y] );    
+
+        if ( expandedNode.x < 41 )
+            VisitNeighbor ( map, map[expandedNode.x+1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );   
+
+        std::sort ( frontier.begin(), frontier.end(), CompareCu );
+    } 
+}
+
