@@ -41,11 +41,11 @@ void VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, 
     if ( !n.visited ){
 
         if ( !IsInFrontier( frontier, n.x, n.y ) ){
-            map[n.x][n.y].cu += cost;
+            map[n.x][n.y].cu = map[father.x][father.y].cu + cost;
             map[n.x][n.y].xx = father.x;
             map[n.x][n.y].yy = father.y;  
-        } else if ( map[n.x][n.x].cu > map[n.x][n.y].cu + cost ) {
-            map[n.x][n.y].cu += cost;
+        } else if ( map[n.x][n.x].cu > map[father.x][father.y].cu + cost ) {
+            map[n.x][n.y].cu = map[father.x][father.y].cu + cost;
             map[n.x][n.y].xx = father.x;
             map[n.x][n.y].yy = father.y;
         } 
