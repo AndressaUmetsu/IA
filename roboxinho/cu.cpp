@@ -49,7 +49,7 @@ void VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, 
             map[n.x][n.y].xx = father.x;
             map[n.x][n.y].yy = father.y;
         } 
-    }       
+    }                                                                                                                            
 
     frontier.push_back( map[n.x][n.y] );        
 }
@@ -66,31 +66,33 @@ void Cu ( _square** map, _pos start, _pos stop ){
 
     map[start.x][start.y].cu = 0;
     frontier.push_back( map[start.x][start.y] );
-
+    int i = 0;
     while( 1 ){
         expandedNode = frontier.front();
         frontier.erase( frontier.begin() );
-
-        map[expandedNode.x][expandedNode.y].visited = true; 
-
+        
         if ( expandedNode.x == stop.x && expandedNode.y == stop.y )
-            break;    
+            break; 
 
-        if ( expandedNode.y > 0 )
-            VisitNeighbor ( map, map[expandedNode.x][expandedNode.y-1], frontier, map[expandedNode.x][expandedNode.y] );    
+        if( !expandedNode.visited ){
+            map[expandedNode.x][expandedNode.y].visited = true;    
 
-        if ( expandedNode.x > 0 )
-            VisitNeighbor ( map, map[expandedNode.x-1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );    
+            if ( expandedNode.y > 0 )
+                VisitNeighbor ( map, map[expandedNode.x][expandedNode.y-1], frontier, map[expandedNode.x][expandedNode.y] );    
 
-        if ( expandedNode.y < 41 )
-            VisitNeighbor ( map, map[expandedNode.x][expandedNode.y+1], frontier, map[expandedNode.x][expandedNode.y] );    
+            if ( expandedNode.x > 0 )
+                VisitNeighbor ( map, map[expandedNode.x-1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );    
 
-        if ( expandedNode.x < 41 )
-            VisitNeighbor ( map, map[expandedNode.x+1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );   
+            if ( expandedNode.y < 41 )
+                VisitNeighbor ( map, map[expandedNode.x][expandedNode.y+1], frontier, map[expandedNode.x][expandedNode.y] );    
 
-        std::sort ( frontier.begin(), frontier.end(), CompareCu );
+            if ( expandedNode.x < 41 )
+                VisitNeighbor ( map, map[expandedNode.x+1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );   
+
+            std::sort ( frontier.begin(), frontier.end(), CompareCu );
+        }
     } 
-    
+
     frontier.clear();
 
     int k = 0;
@@ -99,9 +101,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
         map[aux.x][aux.y].path = true;
         expandedNode.x = map[aux.x][aux.y].xx;
         expandedNode.y = map[aux.x][aux.y].yy;
-        //printf("%d %d %d %d %d\n", ++k, node.x, node.y, map[aux.x][aux.y].type, map[aux.x][aux.y].cu);
     }
-
 
 }
 
