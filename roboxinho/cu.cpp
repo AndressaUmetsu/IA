@@ -60,17 +60,21 @@ bool CompareCu ( _square a, _square b ){
 
 void Cu ( _square** map, _pos start, _pos stop ){
     std::vector <_square> frontier;
+    _square expandedNode;
 
     InitializePosition ( map );
 
     map[start.x][start.y].cu = 0;
     frontier.push_back( map[start.x][start.y] );
 
-    while( !map[stop.x][stop.y].visited ){
-        _square expandedNode = frontier.front();
+    while( 1 ){
+        expandedNode = frontier.front();
         frontier.erase( frontier.begin() );
 
-        map[expandedNode.x][expandedNode.y].visited = true;  
+        map[expandedNode.x][expandedNode.y].visited = true; 
+
+        if ( expandedNode.x == stop.x && expandedNode.y == stop.y )
+            break;    
 
         if ( expandedNode.y > 0 )
             VisitNeighbor ( map, map[expandedNode.x][expandedNode.y-1], frontier, map[expandedNode.x][expandedNode.y] );    
@@ -86,5 +90,18 @@ void Cu ( _square** map, _pos start, _pos stop ){
 
         std::sort ( frontier.begin(), frontier.end(), CompareCu );
     } 
+    
+    frontier.clear();
+
+    int k = 0;
+    while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
+        _square aux = expandedNode;
+        map[aux.x][aux.y].path = true;
+        expandedNode.x = map[aux.x][aux.y].xx;
+        expandedNode.y = map[aux.x][aux.y].yy;
+        //printf("%d %d %d %d %d\n", ++k, node.x, node.y, map[aux.x][aux.y].type, map[aux.x][aux.y].cu);
+    }
+
+
 }
 
