@@ -95,6 +95,8 @@ void Cu ( _square** map, _pos start, _pos stop ){
 
     frontier.clear();
 
+    printf( "Custo do caminho: %d\n", map[expandedNode.x][expandedNode.y].cu );
+
     int k = 0;
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
