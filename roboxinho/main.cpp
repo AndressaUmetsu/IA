@@ -50,9 +50,9 @@ int main(int argc, char const *argv[]) {
 
     //dfs(map, start_pos, end_pos);
  
-    Bfs(map, start_pos, end_pos);
+    // Bfs(map, start_pos, end_pos);
 
-    //Cu(map, start_pos, end_pos);
+    Cu(map, start_pos, end_pos);
 
     printfImage(map, start_pos, end_pos);
 

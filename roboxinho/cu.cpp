@@ -40,7 +40,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
         		break;    	
         	}	
 
-            if ( lugar.y > 0 && !map[lugar.x][lugar.y-1].visited ){
+            if ( lugar.y > 0  ){
                 int custo = 0;
 
                 if (map[lugar.x][lugar.y-1].type == 0) {
@@ -48,8 +48,12 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 } else {
                     custo = 5 * ( map[lugar.x][lugar.y-1].type);
                 }
+                
+                if (!map[lugar.x][lugar.y-1].visited)
+                    map[lugar.x][lugar.y-1].cu = map[lugar.x][lugar.y].cu + custo;
+                else 
+                    map[lugar.x][lugar.y-1].cu = map[lugar.x][lugar.y-1].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x][lugar.y-1].cu : map[lugar.x][lugar.y].cu + custo;
 
-                map[lugar.x][lugar.y-1].cu = map[lugar.x][lugar.y].cu + custo;
                 map[lugar.x][lugar.y-1].xx = lugar.x;
                 map[lugar.x][lugar.y-1].yy = lugar.y;
                 map[lugar.x][lugar.y-1].visited = true;
@@ -57,7 +61,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 u.push_back( map[lugar.x][lugar.y-1] );
             }
 
-            if ( lugar.x > 0 && !map[lugar.x-1][lugar.y].visited){
+            if ( lugar.x > 0 ){
                 int custo = 0;
 
                 if (map[lugar.x-1][lugar.y].type == 0) {
@@ -65,8 +69,12 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 } else {
                     custo = 5 * ( map[lugar.x-1][lugar.y].type);
                 }
+                
+                if (!map[lugar.x-1][lugar.y].visited)
+                    map[lugar.x-1][lugar.y].cu = map[lugar.x][lugar.y].cu + custo;
+                else 
+                    map[lugar.x-1][lugar.y].cu = map[lugar.x-1][lugar.y].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x-1][lugar.y].cu : map[lugar.x][lugar.y].cu + custo;
 
-                map[lugar.x-1][lugar.y].cu = map[lugar.x][lugar.y].cu + custo;
                 map[lugar.x-1][lugar.y].xx = lugar.x;
                 map[lugar.x-1][lugar.y].yy = lugar.y;
                 map[lugar.x-1][lugar.y].visited = true;
@@ -74,7 +82,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 u.push_back( map[lugar.x-1][lugar.y] );
             }
 
-            if ( lugar.x < 41 && !map[lugar.x+1][lugar.y].visited){
+            if ( lugar.x < 41 ){
                 int custo = 0;
 
                 if (map[lugar.x+1][lugar.y].type == 0) {
@@ -82,8 +90,12 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 } else {
                     custo = 5 * ( map[lugar.x+1][lugar.y].type);
                 }
-                
-                map[lugar.x+1][lugar.y].cu = map[lugar.x][lugar.y].cu + custo;
+                                
+                if (!map[lugar.x+1][lugar.y].visited)
+                    map[lugar.x+1][lugar.y].cu = map[lugar.x][lugar.y].cu + custo;
+                else 
+                    map[lugar.x+1][lugar.y].cu = map[lugar.x+1][lugar.y].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x+1][lugar.y].cu : map[lugar.x][lugar.y].cu + custo;
+
                 map[lugar.x+1][lugar.y].xx = lugar.x;
                 map[lugar.x+1][lugar.y].yy = lugar.y;
                 map[lugar.x+1][lugar.y].visited = true;
@@ -91,7 +103,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 u.push_back( map[lugar.x+1][lugar.y] );
             }
 
-            if ( lugar.y < 41 && !map[lugar.x][lugar.y+1].visited){
+            if ( lugar.y < 41 ){
                 int custo = 0;
 
                 if (map[lugar.x][lugar.y+1].type == 0) {
@@ -99,8 +111,12 @@ void Cu ( _square** map, _pos start, _pos stop ){
                 } else {
                     custo = 5 * ( map[lugar.x][lugar.y+1].type);
                 }
+                
+                if (!map[lugar.x][lugar.y+1].visited)
+                    map[lugar.x][lugar.y+1].cu = map[lugar.x][lugar.y].cu + custo;
+                else 
+                    map[lugar.x][lugar.y+1].cu = map[lugar.x][lugar.y+1].cu < map[lugar.x][lugar.y].cu + custo ? map[lugar.x][lugar.y+1].cu : map[lugar.x][lugar.y].cu + custo;
 
-                map[lugar.x][lugar.y+1].cu = map[lugar.x][lugar.y].cu + custo;
                 map[lugar.x][lugar.y+1].xx = lugar.x;
                 map[lugar.x][lugar.y+1].yy = lugar.y;
                 map[lugar.x][lugar.y+1].visited = true;
