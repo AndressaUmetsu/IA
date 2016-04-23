@@ -8,6 +8,7 @@ typedef struct {
     int  x, y;
     int xx, yy;
     int cu;
+    float heur;
 } _square;
 
 typedef struct {

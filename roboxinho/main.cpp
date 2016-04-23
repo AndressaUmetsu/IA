@@ -8,6 +8,7 @@
 #include "dfs.h"
 #include "bfs.h"
 #include "cu.h"
+#include "a_star.h"
 
 int main(int argc, char const *argv[]) {
     FILE *file = fopen("Robo_ambiente.txt", "rt");
@@ -49,10 +50,12 @@ int main(int argc, char const *argv[]) {
     }
 
     //dfs(map, start_pos, end_pos);
- 
+
     // Bfs(map, start_pos, end_pos);
 
-    Cu(map, start_pos, end_pos);
+    //Cu(map, start_pos, end_pos);
+
+    a_star(map, start_pos, end_pos);
 
     printfImage(map, start_pos, end_pos);
 
