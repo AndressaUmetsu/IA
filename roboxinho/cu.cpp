@@ -15,7 +15,7 @@ void InitializePosition ( _square **map ){
 }
 
 int CostByType ( int type ){
-    if ( type == 0 ) 
+    if ( type == 0 )
         return 1;
     return  5 * type;
 }
@@ -27,7 +27,7 @@ bool IsInFrontier ( std::vector<_square> & frontier, int x, int y ){
        // printf("verificando fronteira\n");
         if ( frontier[i].x == x && frontier[i].y == y ){
             frontier.erase( frontier.begin()+i );
-            break;  
+            break;
         }
         i++;
     }
@@ -43,15 +43,15 @@ void VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, 
         if ( !IsInFrontier( frontier, n.x, n.y ) ){
             map[n.x][n.y].cu = map[father.x][father.y].cu + cost;
             map[n.x][n.y].xx = father.x;
-            map[n.x][n.y].yy = father.y;  
+            map[n.x][n.y].yy = father.y;
         } else if ( map[n.x][n.x].cu > map[father.x][father.y].cu + cost ) {
             map[n.x][n.y].cu = map[father.x][father.y].cu + cost;
             map[n.x][n.y].xx = father.x;
             map[n.x][n.y].yy = father.y;
-        } 
-    }                                                                                                                            
+        }
+    }
 
-    frontier.push_back( map[n.x][n.y] );        
+    frontier.push_back( map[n.x][n.y] );
 }
 
 bool CompareCu ( _square a, _square b ){
@@ -70,28 +70,28 @@ void Cu ( _square** map, _pos start, _pos stop ){
     while( 1 ){
         expandedNode = frontier.front();
         frontier.erase( frontier.begin() );
-        
+
         if ( expandedNode.x == stop.x && expandedNode.y == stop.y )
-            break; 
+            break;
 
         if( !expandedNode.visited ){
-            map[expandedNode.x][expandedNode.y].visited = true;    
+            map[expandedNode.x][expandedNode.y].visited = true;
 
             if ( expandedNode.y > 0 )
-                VisitNeighbor ( map, map[expandedNode.x][expandedNode.y-1], frontier, map[expandedNode.x][expandedNode.y] );    
+                VisitNeighbor ( map, map[expandedNode.x][expandedNode.y-1], frontier, map[expandedNode.x][expandedNode.y] );
 
             if ( expandedNode.x > 0 )
-                VisitNeighbor ( map, map[expandedNode.x-1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );    
+                VisitNeighbor ( map, map[expandedNode.x-1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );
 
             if ( expandedNode.y < 41 )
-                VisitNeighbor ( map, map[expandedNode.x][expandedNode.y+1], frontier, map[expandedNode.x][expandedNode.y] );    
+                VisitNeighbor ( map, map[expandedNode.x][expandedNode.y+1], frontier, map[expandedNode.x][expandedNode.y] );
 
             if ( expandedNode.x < 41 )
-                VisitNeighbor ( map, map[expandedNode.x+1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );   
+                VisitNeighbor ( map, map[expandedNode.x+1][expandedNode.y], frontier, map[expandedNode.x][expandedNode.y] );
 
             std::sort ( frontier.begin(), frontier.end(), CompareCu );
         }
-    } 
+    }
 
     frontier.clear();
 
