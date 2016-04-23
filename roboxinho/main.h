@@ -9,6 +9,7 @@ typedef struct {
     int xx, yy;
     int cu;
     float heur;
+    float oracle;
 } _square;
 
 typedef struct {

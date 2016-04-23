@@ -8,7 +8,38 @@
 #include "a_star.h"
 #include "cu.h"
 
+void reset_map(_square **map) {
+    for ( int i = 0; i < 42; ++i ){
+        for ( int j = 0; j < 42; ++j ){
+            map[j][i].visited = false;
+            map[j][i].path    = false;
+            map[j][i].xx      = -1;
+            map[j][i].yy      = -1;
+            map[j][i].cu      = -1;
+        }
+    }
+}
+
+void load_oracle ( _square **map ){
+    int hue;
+    FILE *file = fopen("cu.dat", "rt");
+    for ( int i = 0 ; i < 42 ; i++ ) {
+        for ( int j = 0 ; j < 42 ; j++ ) {
+            fscanf(file, "%d", &hue);
+            map[j][i].visited = false;
+            map[j][i].path    = false;
+            map[j][i].x       = i;
+            map[j][i].y       = j;
+            map[j][i].heur    = 0;
+            map[j][i].oracle  = hue;
+        }
+    }
+    fclose(file);
+}
+
 void as_InitializePosition ( _square **map, _pos q ){
+    load_oracle(map);
+
     for ( int i = 0; i < 42; ++i ){
         for ( int j = 0; j < 42; ++j ){
             _pos p;
@@ -16,16 +47,16 @@ void as_InitializePosition ( _square **map, _pos q ){
             p.y = j;
             map[i][j].x    = i;
             map[i][j].y    = j;
-            //map[i][j].heur = euclidian_distance(p, q) * 4.5;
-            //map[i][j].heur = euclidian_distance(p, q) * 3.5;
-            //map[i][j].heur = euclidian_distance(p, q) * 2.5;
-            //map[i][j].heur = euclidian_distance(p, q) * 2.0;
-            //map[i][j].heur = euclidian_distance(p, q) * 1.5;
-            //map[i][j].heur = euclidian_distance(p, q) * 1.0;
-            //map[i][j].heur = manhattan_distance(p, q);
-            map[i][j].heur = renan_distance(p, q);
+            map[i][j].heur += euclidian_distance(p, q) * 1.0;
+            //map[i][j].heur += manhattan_distance(p, q);
+            //map[i][j].heur += minkowski_distance(p, q, 0.6);
+            //map[i][j].heur += renan_distance(p, q);
+            //map[i][j].heur += chebyshev_distance(p, q) * 1;
+            //map[i][j].heur += canberra_distance(p, q) * 25.0;
+            //map[i][j].heur /= 5.0;
+            //map[i][j].heur = map[i][j].oracle;
             //map[i][j].heur = 0;
-            //printf("%d %d %f\n", i, j, map[i][j].heur);
+            printf("%d \t %d \t %f \t %f \t %f\n", i, j, map[i][j].heur, map[i][j].oracle, map[i][j].oracle - map[i][j].heur);
         }
     }
 }
@@ -87,16 +118,40 @@ int manhattan_distance(_pos a, _pos b){
     return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
+int chebyshev_distance(_pos a, _pos b){
+    int x = abs(a.x - b.y);
+    int y = abs(a.y - b.y);
+    return x > y ? x : y;
+}
+
 double renan_distance(_pos a, _pos b){
-    double x = euclidian_distance(a, b) * 2.0;
+    double i = 6.0;
+    double j = 1.0;
+    double k = 6.0;
+    double l = 1.0;
+
+    double r = 1.9;
+    double s = 0.7;
+
+    double x = euclidian_distance(a, b) * 1.0;
     double y = manhattan_distance(a, b) * 1.0;
-    double m = (x + y) / 2.0;
-    printf("%f %f %f\n", x, y, m );
-    //return x < y ? x : y;
-    return m;
+    double z = minkowski_distance(a, b, 0.5);
+    double w = chebyshev_distance(a, b) * 1.0;
+
+    double m = (i*x + j*y + k*z + l*w) / (i + j + k + l);
+    double n = ( r * ((y * w)/(y + w)) + s * ((x))) ;
+
+    return (0.3*m + 0.5*n) * canberra_distance(a, b);
 }
 
 double euclidian_distance(_pos a, _pos b){
     return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
+double minkowski_distance(_pos a, _pos b, double p){
+    return pow(pow(fabs(a.x - b.x), p) + pow(fabs(a.y - b.y), p), 1.0/p);
+}
+
+double canberra_distance(_pos a, _pos b){
+    return fabs(a.x - b.x)/(a.x + b.x) + fabs(a.y - b.y)/(a.y + b.y);
+}
