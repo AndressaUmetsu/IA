@@ -1,8 +1,8 @@
-void as_InitializePosition ( _square **map, _pos );
+void as_InitializePosition ( _square **map, _pos q, int distance );
 
 bool as_CompareCu ( _square a, _square b );
 
-void a_star ( _square** map, _pos start, _pos stop );
+void a_star ( _square** map, _pos start, _pos stop, int distance );
 
 int    manhattan_distance(_pos a, _pos b);
 double renan_distance(_pos a, _pos b);

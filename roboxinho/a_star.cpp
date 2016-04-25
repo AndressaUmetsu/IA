@@ -37,7 +37,7 @@ void load_oracle ( _square **map ){
     fclose(file);
 }
 
-void as_InitializePosition ( _square **map, _pos q ){
+void as_InitializePosition ( _square **map, _pos q, int distance ){
     //load_oracle(map);
 
     for ( int i = 0; i < 42; ++i ){
@@ -47,12 +47,21 @@ void as_InitializePosition ( _square **map, _pos q ){
             p.y = j;
             map[i][j].x    = i;
             map[i][j].y    = j;
-            map[i][j].heur += euclidian_distance(p, q) * 1.0;
-            //map[i][j].heur += manhattan_distance(p, q);
-            //map[i][j].heur += minkowski_distance(p, q, 0.6);
-            //map[i][j].heur += renan_distance(p, q);
-            //map[i][j].heur += chebyshev_distance(p, q) * 1;
-            //map[i][j].heur += canberra_distance(p, q) * 25.0;
+
+            switch ( distance ) {
+                case 1:
+                    map[i][j].heur = euclidian_distance(p, q) * 1.0;
+                case 2:
+                    map[i][j].heur = manhattan_distance(p, q);
+                case 3:
+                    map[i][j].heur = minkowski_distance(p, q, 0.6);
+                case 4:
+                    map[i][j].heur = renan_distance(p, q);
+                case 5:
+                    map[i][j].heur = chebyshev_distance(p, q) * 1;
+                case 6:
+                    map[i][j].heur = canberra_distance(p, q) * 25.0;
+            }
             //map[i][j].heur /= 5.0;
             //map[i][j].heur = map[i][j].oracle;
             //map[i][j].heur = 0;
@@ -65,11 +74,11 @@ bool as_CompareCu ( _square a, _square b ){
     return a.cu + a.heur < b.cu + b.heur;
 }
 
-void a_star ( _square** map, _pos start, _pos stop ){
+void a_star ( _square** map, _pos start, _pos stop, int distance ){
     std::vector <_square> frontier;
     _square expandedNode;
 
-    as_InitializePosition ( map, stop );
+    as_InitializePosition ( map, stop, distance );
 
     map[start.x][start.y].cu = CostByType(map[start.x][start.y].type);
     frontier.push_back( map[start.x][start.y] );
