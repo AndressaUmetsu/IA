@@ -23,7 +23,7 @@ int CostByType ( int type ){
 bool IsInFrontier ( std::vector<_square> & frontier, int x, int y ){
     int i = 0;
 
-    while ( i < frontier.size() ){
+    while ( i < (int)frontier.size() ){
        // printf("verificando fronteira\n");
         if ( frontier[i].x == x && frontier[i].y == y ){
             frontier.erase( frontier.begin()+i );
@@ -66,7 +66,7 @@ void Cu ( _square** map, _pos start, _pos stop ){
 
     map[start.x][start.y].cu = 0;
     frontier.push_back( map[start.x][start.y] );
-    int i = 0;
+
     while( 1 ){
         expandedNode = frontier.front();
         frontier.erase( frontier.begin() );
@@ -97,7 +97,6 @@ void Cu ( _square** map, _pos start, _pos stop ){
 
     printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
 
-    int k = 0;
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
         map[aux.x][aux.y].path = true;

@@ -88,7 +88,7 @@ void a_star ( _square** map, _pos start, _pos stop, int distance ){
 
     map[start.x][start.y].cu = CostByType(map[start.x][start.y].type);
     frontier.push_back( map[start.x][start.y] );
-    int i = 0;
+
     while( 1 ){
         expandedNode = frontier.front();
         frontier.erase( frontier.begin() );
@@ -119,7 +119,6 @@ void a_star ( _square** map, _pos start, _pos stop, int distance ){
 
     printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
 
-    int k = 0;
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
         //printf("%d\n", CostByType( map[aux.x][aux.y].type ));
@@ -166,9 +165,9 @@ double euclidian_distance(_pos a, _pos b){
 }
 
 double minkowski_distance(_pos a, _pos b, double p){
-    return pow(pow(fabs(a.x - b.x), p) + pow(fabs(a.y - b.y), p), 1.0/p);
+    return pow(pow(abs(a.x - b.x), p) + pow(abs(a.y - b.y), p), 1.0/p);
 }
 
 double canberra_distance(_pos a, _pos b){
-    return fabs(a.x - b.x)/(a.x + b.x) + fabs(a.y - b.y)/(a.y + b.y);
+    return abs(a.x - b.x)/(a.x + b.x) + abs(a.y - b.y)/(a.y + b.y);
 }

@@ -4,8 +4,6 @@
 #include "map.h"
 
 void printfImage(_square **map, _pos start, _pos stop ){
-    static int k = 0;
-    
     FILE *out = fopen("out.svg", "wt");
 
     int sizeX = 42;
