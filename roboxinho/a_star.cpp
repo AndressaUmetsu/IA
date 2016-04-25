@@ -38,7 +38,7 @@ void load_oracle ( _square **map ){
 }
 
 void as_InitializePosition ( _square **map, _pos q ){
-    load_oracle(map);
+    //load_oracle(map);
 
     for ( int i = 0; i < 42; ++i ){
         for ( int j = 0; j < 42; ++j ){
@@ -56,7 +56,7 @@ void as_InitializePosition ( _square **map, _pos q ){
             //map[i][j].heur /= 5.0;
             //map[i][j].heur = map[i][j].oracle;
             //map[i][j].heur = 0;
-            printf("%d \t %d \t %f \t %f \t %f\n", i, j, map[i][j].heur, map[i][j].oracle, map[i][j].oracle - map[i][j].heur);
+            //printf("%d \t %d \t %f \t %f \t %f\n", i, j, map[i][j].heur, map[i][j].oracle, map[i][j].oracle - map[i][j].heur);
         }
     }
 }
@@ -71,7 +71,7 @@ void a_star ( _square** map, _pos start, _pos stop ){
 
     as_InitializePosition ( map, stop );
 
-    map[start.x][start.y].cu = 0;
+    map[start.x][start.y].cu = CostByType(map[start.x][start.y].type);
     frontier.push_back( map[start.x][start.y] );
     int i = 0;
     while( 1 ){
@@ -107,10 +107,12 @@ void a_star ( _square** map, _pos start, _pos stop ){
     int k = 0;
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
+        printf("%d\n", CostByType( map[aux.x][aux.y].type ));
         map[aux.x][aux.y].path = true;
         expandedNode.x = map[aux.x][aux.y].xx;
         expandedNode.y = map[aux.x][aux.y].yy;
     }
+    printf("%d\n", CostByType( map[expandedNode.x][expandedNode.y].type ));
 
 }
 
@@ -119,7 +121,7 @@ int manhattan_distance(_pos a, _pos b){
 }
 
 int chebyshev_distance(_pos a, _pos b){
-    int x = abs(a.x - b.y);
+    int x = abs(a.x - b.x);
     int y = abs(a.y - b.y);
     return x > y ? x : y;
 }
