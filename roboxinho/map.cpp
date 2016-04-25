@@ -90,6 +90,6 @@ void printfImage(_square **map, _pos start, _pos stop ){
     fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (stop.x * scale + 5), (stop.y * scale - 5), (stop.x * scale - 5), (stop.y * scale + 5)) ;
     fprintf(out, "</svg>\n");
 
-    printf("Nós explorados: %d\n", visitados);
-    printf("Tamanho do caminho: %d\n", caminho);
+    printf("%d ", visitados);
+    printf("%d\n", caminho);
 }

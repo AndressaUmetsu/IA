@@ -89,5 +89,5 @@ void Bfs ( _square** map, _pos start, _pos stop ){
         //printf("%d %d  -- %d %d\n", pos.x, pos.y, start.x, start.y);
     }
 
-    printf("Custo do caminho: %d\n", custo_total);
+    printf("%d ", custo_total);
 }

@@ -51,16 +51,22 @@ void as_InitializePosition ( _square **map, _pos q, int distance ){
             switch ( distance ) {
                 case 1:
                     map[i][j].heur = euclidian_distance(p, q) * 1.0;
+                    break;
                 case 2:
                     map[i][j].heur = manhattan_distance(p, q);
+                    break;
                 case 3:
                     map[i][j].heur = minkowski_distance(p, q, 0.6);
+                    break;
                 case 4:
                     map[i][j].heur = renan_distance(p, q);
+                    break;
                 case 5:
                     map[i][j].heur = chebyshev_distance(p, q) * 1;
+                    break;
                 case 6:
                     map[i][j].heur = canberra_distance(p, q) * 25.0;
+                    break;
             }
             //map[i][j].heur /= 5.0;
             //map[i][j].heur = map[i][j].oracle;
@@ -111,17 +117,17 @@ void a_star ( _square** map, _pos start, _pos stop, int distance ){
 
     frontier.clear();
 
-    printf( "Custo do caminho: %d\n", map[expandedNode.x][expandedNode.y].cu );
+    printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
 
     int k = 0;
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
-        printf("%d\n", CostByType( map[aux.x][aux.y].type ));
+        //printf("%d\n", CostByType( map[aux.x][aux.y].type ));
         map[aux.x][aux.y].path = true;
         expandedNode.x = map[aux.x][aux.y].xx;
         expandedNode.y = map[aux.x][aux.y].yy;
     }
-    printf("%d\n", CostByType( map[expandedNode.x][expandedNode.y].type ));
+    //printf("%d\n", CostByType( map[expandedNode.x][expandedNode.y].type ));
 
 }
 
