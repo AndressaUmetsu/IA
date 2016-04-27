@@ -3,10 +3,10 @@
 #include <cstdio>
 #include <cstdlib>
 
-void dfs(_square** map, _pos start, _pos stop) {
+int dfs(_square** map, _pos start, _pos stop) {
     std::vector<_pos> stack;
-    
-    map[start.x][start.y].path    = true;
+
+    map[start.x][start.y].path = true;
 
     stack.push_back(start);
     _pos pos;
@@ -77,7 +77,7 @@ void dfs(_square** map, _pos start, _pos stop) {
     while ( pos.x != start.x || pos.y != start.y ) {
         _pos bos = pos;
 
-        int custo = 0; 
+        int custo = 0;
         if (map[pos.x][pos.y].type == 0) {
             custo = 1;
         } else {
@@ -91,7 +91,7 @@ void dfs(_square** map, _pos start, _pos stop) {
         //printf("%d %d  -- %d %d\n", pos.x, pos.y, start.x, start.y);
     }
 
-    printf("%d ", custo_total);
+    //printf("%d ", custo_total);
 
-    return;
+    return custo_total;
 }

@@ -67,6 +67,9 @@ void as_InitializePosition ( _square **map, _pos q, int distance ){
                 case 6:
                     map[i][j].heur = canberra_distance(p, q) * 25.0;
                     break;
+                case 7:
+                    map[i][j].heur = andressa_distance(p, q) * 25.0;
+                    break;
             }
             //map[i][j].heur /= 5.0;
             //map[i][j].heur = map[i][j].oracle;
@@ -80,7 +83,7 @@ bool as_CompareCu ( _square a, _square b ){
     return a.cu + a.heur < b.cu + b.heur;
 }
 
-void a_star ( _square** map, _pos start, _pos stop, int distance ){
+int a_star ( _square** map, _pos start, _pos stop, int distance ){
     std::vector <_square> frontier;
     _square expandedNode;
 
@@ -117,7 +120,9 @@ void a_star ( _square** map, _pos start, _pos stop, int distance ){
 
     frontier.clear();
 
-    printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
+    int custo_total = map[expandedNode.x][expandedNode.y].cu;
+
+    //printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
 
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
@@ -128,6 +133,7 @@ void a_star ( _square** map, _pos start, _pos stop, int distance ){
     }
     //printf("%d\n", CostByType( map[expandedNode.x][expandedNode.y].type ));
 
+    return custo_total;
 }
 
 int manhattan_distance(_pos a, _pos b){
@@ -169,5 +175,11 @@ double minkowski_distance(_pos a, _pos b, double p){
 }
 
 double canberra_distance(_pos a, _pos b){
-    return abs(a.x - b.x)/(a.x + b.x) + abs(a.y - b.y)/(a.y + b.y);
+    return abs(a.x - b.x)/(a.x + b.x + 1) + abs(a.y - b.y)/(a.y + b.y + 1);
+}
+
+double andressa_distance(_pos p, _pos q){
+    p.x = 1;
+    q.x = 1;
+    return 2.0;
 }

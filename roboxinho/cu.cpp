@@ -58,7 +58,7 @@ bool CompareCu ( _square a, _square b ){
     return a.cu < b.cu;
 }
 
-void Cu ( _square** map, _pos start, _pos stop ){
+int Cu ( _square** map, _pos start, _pos stop ){
     std::vector <_square> frontier;
     _square expandedNode;
 
@@ -95,7 +95,9 @@ void Cu ( _square** map, _pos start, _pos stop ){
 
     frontier.clear();
 
-    printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
+    int custo_total = map[expandedNode.x][expandedNode.y].cu;
+
+    //printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
 
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
@@ -103,6 +105,6 @@ void Cu ( _square** map, _pos start, _pos stop ){
         expandedNode.x = map[aux.x][aux.y].xx;
         expandedNode.y = map[aux.x][aux.y].yy;
     }
-
+    return custo_total;
 }
 

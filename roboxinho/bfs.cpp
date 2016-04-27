@@ -3,9 +3,9 @@
 #include <cstdio>
 #include <cstdlib>
 
-void Bfs ( _square** map, _pos start, _pos stop ){
+int Bfs ( _square** map, _pos start, _pos stop ){
 	std::queue <_pos> myqueue;
-    
+
     map[start.x][start.y].path = true;
 
     myqueue.push(start);
@@ -34,7 +34,7 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                     map[pos.x][pos.y-1].yy = pos.y;
                 }
             }
-            
+
             if ( pos.x < 41 ) {
                 next.x = pos.x + 1;
                 next.y = pos.y;
@@ -45,7 +45,7 @@ void Bfs ( _square** map, _pos start, _pos stop ){
                     map[pos.x+1][pos.y].yy = pos.y;
                 }
             }
-            
+
             if ( pos.y < 41 ) {
                 next.x = pos.x;
                 next.y = pos.y + 1;
@@ -75,7 +75,7 @@ void Bfs ( _square** map, _pos start, _pos stop ){
     while ( pos.x != start.x || pos.y != start.y ) {
         _pos bos = pos;
 
-        int custo = 0; 
+        int custo = 0;
         if (map[pos.x][pos.y].type == 0) {
             custo = 1;
         } else {
@@ -89,5 +89,7 @@ void Bfs ( _square** map, _pos start, _pos stop ){
         //printf("%d %d  -- %d %d\n", pos.x, pos.y, start.x, start.y);
     }
 
-    printf("%d ", custo_total);
+    //printf("%d ", custo_total);
+
+    return custo_total;
 }
