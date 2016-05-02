@@ -28,7 +28,6 @@ int main( ) {
     }
 
     for (int j = 0; j < max; ++j) {
-
         do {
             start_pos.x = rand() % 42;
             start_pos.y = rand() % 42;
@@ -36,6 +35,8 @@ int main( ) {
             end_pos.x   = rand() % 42;
             end_pos.y   = rand() % 42;
         } while ( ( start_pos.x + end_pos.x == 0 ) || ( start_pos.y + end_pos.y == 0 ) );
+
+        //printf("(%d,  %d) -> (%d, %d)\n", start_pos.x, start_pos.y, end_pos.x, end_pos.y);
 
         for (int i = 0; i <= 2; ++i) {
             d = magic( start_pos, end_pos, i+1, 666 );
@@ -46,13 +47,14 @@ int main( ) {
 
         for (int i = 1; i <= 7; ++i) {
             d = magic( start_pos, end_pos, 4, i );
-            data[i+3].nodes += d.nodes;
-            data[i+3].size  += d.size;
-            data[i+3].cost  += d.cost;
+            data[i+2].nodes += d.nodes;
+            data[i+2].size  += d.size;
+            data[i+2].cost  += d.cost;
         }
     }
 
-    for (int i = 1; i <= 10; ++i) {
+    printf("Cost \t\t Size \t\t Nodes\n");
+    for (int i = 0; i < 10; ++i) {
         printf("%f \t %f \t %f\n", data[i].cost/(double)max, data[i].size/(double)max, data[i].nodes/(double)max);
     }
 
