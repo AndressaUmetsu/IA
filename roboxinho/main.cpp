@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 #include "map.h"
 #include "main.h"
@@ -17,45 +18,94 @@ int main( ) {
     _data d;
     int max = 10;
 
+    //std::vector< std::vector<_data> > hist;
+    //hist.resize(13);
+    std::vector<_data> hist[12];
+
     srand(time(NULL));
 
-    _data data[10];
+    _data data[12];
 
-    for (int i = 0; i <= 10; ++i) {
-        data[i].size  = 0;
-        data[i].cost  = 0;
-        data[i].nodes = 0;
+    for (int i = 0; i <= 12; ++i) {
+        data[i].size     = 0;
+        data[i].cost     = 0;
+        data[i].nodes    = 0;
+
+        data[i].c_mean     = 0;
+        data[i].c_variance = 0;
+        data[i].c_std_dev  = 0;
+
+        data[i].s_mean     = 0;
+        data[i].s_variance = 0;
+        data[i].s_std_dev  = 0;
+
+        data[i].n_mean     = 0;
+        data[i].n_variance = 0;
+        data[i].n_std_dev  = 0;
     }
 
     for (int j = 0; j < max; ++j) {
+        double w;
         do {
             start_pos.x = rand() % 42;
             start_pos.y = rand() % 42;
 
             end_pos.x   = rand() % 42;
             end_pos.y   = rand() % 42;
-        } while ( ( start_pos.x + end_pos.x == 0 ) || ( start_pos.y + end_pos.y == 0 ) );
 
-        //printf("(%d,  %d) -> (%d, %d)\n", start_pos.x, start_pos.y, end_pos.x, end_pos.y);
+            w = sqrt( pow( start_pos.x - end_pos.x, 2.0 ) + pow( start_pos.y - end_pos.y, 2.0 ) );
+        } while ( w < 10.0 || w > 15.0 );
+        //printf("%f\n", w);
+        //} while ( ( start_pos.x == end_pos.x ) || ( start_pos.y == end_pos.y ) );
 
         for (int i = 0; i <= 2; ++i) {
             d = magic( start_pos, end_pos, i+1, 666 );
             data[i].nodes += d.nodes;
             data[i].size  += d.size;
             data[i].cost  += d.cost;
+            hist[i].push_back(d);
         }
 
-        for (int i = 1; i <= 7; ++i) {
+        for (int i = 1; i <= 9; ++i) {
             d = magic( start_pos, end_pos, 4, i );
             data[i+2].nodes += d.nodes;
             data[i+2].size  += d.size;
             data[i+2].cost  += d.cost;
+            hist[i+2].push_back(d);
         }
     }
+    for (int i = 0; i < 12; ++i) {
+        data[i].c_mean = data[i].cost  / (double)max;
+        data[i].n_mean = data[i].nodes / (double)max;
+        data[i].s_mean = data[i].size  / (double)max;
 
-    printf("Cost \t\t Size \t\t Nodes\n");
-    for (int i = 0; i < 10; ++i) {
-        printf("%f \t %f \t %f\n", data[i].cost/(double)max, data[i].size/(double)max, data[i].nodes/(double)max);
+        for (int j = 0; j < max; ++j) {
+            data[i].c_std_dev += pow( hist[i][j].cost  - data[i].c_mean, 2.0 );
+            data[i].n_std_dev += pow( hist[i][j].nodes - data[i].n_mean, 2.0 );
+            data[i].s_std_dev += pow( hist[i][j].size  - data[i].s_mean, 2.0 );
+        }
+
+        data[i].c_std_dev *= 1.0 / double(max);
+        data[i].n_std_dev *= 1.0 / double(max);
+        data[i].s_std_dev *= 1.0 / double(max);
+
+        data[i].c_std_dev = sqrt( data[i].c_std_dev );
+        data[i].n_std_dev = sqrt( data[i].n_std_dev );
+        data[i].s_std_dev = sqrt( data[i].s_std_dev );
+    }
+
+    //printf("Cost \t\t Size \t\t Nodes\n");
+    for (int i = 0; i < 12; ++i) {
+        printf(
+                "%f \t %f \t %f \t %f \t %f \t %f\n",
+                //"%0.2f \t %0.2f \t %0.2f \t %0.2f \t %0.2f \t %0.2f\n",
+                data[i].c_mean,
+                data[i].c_std_dev,
+                data[i].s_mean,
+                data[i].s_std_dev,
+                data[i].n_mean,
+                data[i].n_std_dev
+              );
     }
 
     return EXIT_SUCCESS;

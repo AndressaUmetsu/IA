@@ -53,21 +53,27 @@ void as_InitializePosition ( _square **map, _pos q, int distance ){
                     map[i][j].heur = euclidian_distance(p, q) * 1.0;
                     break;
                 case 2:
-                    map[i][j].heur = manhattan_distance(p, q);
+                    map[i][j].heur = euclidian_distance(p, q) * 2.0;
                     break;
                 case 3:
-                    map[i][j].heur = minkowski_distance(p, q, 0.6);
+                    map[i][j].heur = manhattan_distance(p, q) * 1.0;
                     break;
                 case 4:
-                    map[i][j].heur = renan_distance(p, q);
+                    map[i][j].heur = manhattan_distance(p, q) * 2.0;
                     break;
                 case 5:
-                    map[i][j].heur = chebyshev_distance(p, q) * 1;
+                    map[i][j].heur = minkowski_distance(p, q, 0.75);
                     break;
                 case 6:
-                    map[i][j].heur = canberra_distance(p, q) * 25.0;
+                    map[i][j].heur = renan_distance(p, q);
                     break;
                 case 7:
+                    map[i][j].heur = chebyshev_distance(p, q) * 1;
+                    break;
+                case 8:
+                    map[i][j].heur = canberra_distance(p, q) * 25.0;
+                    break;
+                case 9:
                     map[i][j].heur = andressa_distance(p, q) * 25.0;
                     break;
             }
