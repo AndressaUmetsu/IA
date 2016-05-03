@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     _pos start_pos;
     _pos end_pos;
     _data d;
-    int max = 10;
+    int max = 50;
 
     std::vector<_data> hist[12];
 
@@ -110,8 +110,9 @@ int main(int argc, char *argv[]) {
     //printf("Cost \t\t Size \t\t Nodes\n");
     for (int i = 0; i < 11; ++i) {
         printf(
-                "%2d: %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f\n",
-                i,
+                "%9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f\n",
+                //"%2d: %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f\n",
+                //i,
                 data[i].c_mean,
                 data[i].c_std_dev,
                 data[i].s_mean,
