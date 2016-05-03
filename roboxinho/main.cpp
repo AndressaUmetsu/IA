@@ -12,14 +12,26 @@
 #include "cu.h"
 #include "a_star.h"
 
-int main( ) {
+int main(int argc, char *argv[]) {
+    int dist;
+    int dx;
+
+    if ( argc != 3 ) {
+        dx = 5;
+        if ( argc != 2 )
+            dist = 25;
+        else
+            dist = atoi(argv[1]);
+    } else {
+        dist = atoi(argv[1]);
+        dx   = atoi(argv[2]);
+    }
+
     _pos start_pos;
     _pos end_pos;
     _data d;
     int max = 10;
 
-    //std::vector< std::vector<_data> > hist;
-    //hist.resize(13);
     std::vector<_data> hist[12];
 
     srand(time(NULL));
@@ -54,7 +66,7 @@ int main( ) {
             end_pos.y   = rand() % 42;
 
             w = sqrt( pow( start_pos.x - end_pos.x, 2.0 ) + pow( start_pos.y - end_pos.y, 2.0 ) );
-        } while ( w < 10.0 || w > 15.0 );
+        } while ( w < dist - dx || w > dist + dx );
         //printf("%f\n", w);
         //} while ( ( start_pos.x == end_pos.x ) || ( start_pos.y == end_pos.y ) );
 
@@ -66,7 +78,7 @@ int main( ) {
             hist[i].push_back(d);
         }
 
-        for (int i = 1; i <= 9; ++i) {
+        for (int i = 1; i <= 8; ++i) {
             d = magic( start_pos, end_pos, 4, i );
             data[i+2].nodes += d.nodes;
             data[i+2].size  += d.size;
@@ -74,7 +86,7 @@ int main( ) {
             hist[i+2].push_back(d);
         }
     }
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i < 11; ++i) {
         data[i].c_mean = data[i].cost  / (double)max;
         data[i].n_mean = data[i].nodes / (double)max;
         data[i].s_mean = data[i].size  / (double)max;
@@ -95,10 +107,10 @@ int main( ) {
     }
 
     //printf("Cost \t\t Size \t\t Nodes\n");
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i < 11; ++i) {
         printf(
-                "%f \t %f \t %f \t %f \t %f \t %f\n",
-                //"%0.2f \t %0.2f \t %0.2f \t %0.2f \t %0.2f \t %0.2f\n",
+                "%2d: %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f \t %9.4f\n",
+                i,
                 data[i].c_mean,
                 data[i].c_std_dev,
                 data[i].s_mean,
