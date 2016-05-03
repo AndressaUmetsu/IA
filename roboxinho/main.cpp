@@ -86,6 +86,7 @@ int main(int argc, char *argv[]) {
             hist[i+2].push_back(d);
         }
     }
+
     for (int i = 0; i < 11; ++i) {
         data[i].c_mean = data[i].cost  / (double)max;
         data[i].n_mean = data[i].nodes / (double)max;
