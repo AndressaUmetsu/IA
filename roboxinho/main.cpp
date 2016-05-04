@@ -38,10 +38,10 @@ int main(int argc, char *argv[]) {
 
     _data data[12];
 
-    for (int i = 0; i <= 12; ++i) {
-        data[i].size     = 0;
-        data[i].cost     = 0;
-        data[i].nodes    = 0;
+    for (int i = 0; i < 12; i++) {
+        data[i].size       = 0;
+        data[i].cost       = 0;
+        data[i].nodes      = 0;
 
         data[i].c_mean     = 0;
         data[i].c_variance = 0;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 
             w = sqrt( pow( start_pos.x - end_pos.x, 2.0 ) + pow( start_pos.y - end_pos.y, 2.0 ) );
         } while ( w < dist - dx || w > dist + dx );
-        //printf("%f\n", w);
+        printf("%f %d\n", w, j);
         //} while ( ( start_pos.x == end_pos.x ) || ( start_pos.y == end_pos.y ) );
 
         for (int i = 0; i <= 2; ++i) {
@@ -86,6 +86,8 @@ int main(int argc, char *argv[]) {
             hist[i+2].push_back(d);
         }
     }
+
+    puts("\n");
 
     for (int i = 0; i < 11; ++i) {
         data[i].c_mean = data[i].cost  / (double)max;
