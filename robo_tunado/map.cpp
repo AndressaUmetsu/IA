@@ -35,31 +35,31 @@ void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica ){
             fprintf(out, "\" cy=\"");
             fprintf(out, "%d", (j*scale));
             if        (map[i][j].type == 0){
-                    fprintf(out, "\" r=\"%d\" stroke=\"olivedrab\" stroke-width=\"1\" fill=\"olivedrab\"/>\n", scale/2);
+                fprintf(out, "\" r=\"%d\" stroke=\"olivedrab\" stroke-width=\"1\" fill=\"olivedrab\"/>\n", scale/2);
             } else if (map[i][j].type == 1){
-                    fprintf(out, "\" r=\"%d\" stroke=\"saddlebrown\" stroke-width=\"1\" fill=\"saddlebrown\"/>\n", scale/2);
+                fprintf(out, "\" r=\"%d\" stroke=\"saddlebrown\" stroke-width=\"1\" fill=\"saddlebrown\"/>\n", scale/2);
             } else if (map[i][j].type == 2){
-                    fprintf(out, "\" r=\"%d\" stroke=\"deepskyblue\" stroke-width=\"1\" fill=\"deepskyblue\"/>\n", scale/2);
+                fprintf(out, "\" r=\"%d\" stroke=\"deepskyblue\" stroke-width=\"1\" fill=\"deepskyblue\"/>\n", scale/2);
             } else if (map[i][j].type == 3){
-                    fprintf(out, "\" r=\"%d\" stroke=\"darkred\" stroke-width=\"1\" fill=\"darkred\"/>\n", scale/2);
+                fprintf(out, "\" r=\"%d\" stroke=\"darkred\" stroke-width=\"1\" fill=\"darkred\"/>\n", scale/2);
             }
 
             //if ( map[i][j].visited ) {
-                //visitados++;
-                //fprintf(out, "<circle cx=\"");
-                //fprintf(out, "%d", (i*scale));
-                //fprintf(out, "\" cy=\"");
-                //fprintf(out, "%d", (j*scale));
-                //fprintf(out, "\" r=\"%d\" stroke=\"aqua\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
+            //visitados++;
+            //fprintf(out, "<circle cx=\"");
+            //fprintf(out, "%d", (i*scale));
+            //fprintf(out, "\" cy=\"");
+            //fprintf(out, "%d", (j*scale));
+            //fprintf(out, "\" r=\"%d\" stroke=\"aqua\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
             //}
 
             //if ( map[i][j].path ) {
-                //caminho++;
-                //fprintf(out, "<circle cx=\"");
-                //fprintf(out, "%d", (i*scale));
-                //fprintf(out, "\" cy=\"");
-                //fprintf(out, "%d", (j*scale));
-                //fprintf(out, "\" r=\"%d\" stroke=\"black\" stroke-width=\"1\" fill=\"black\"/>\n", scale/5);
+            //caminho++;
+            //fprintf(out, "<circle cx=\"");
+            //fprintf(out, "%d", (i*scale));
+            //fprintf(out, "\" cy=\"");
+            //fprintf(out, "%d", (j*scale));
+            //fprintf(out, "\" r=\"%d\" stroke=\"black\" stroke-width=\"1\" fill=\"black\"/>\n", scale/5);
             //}
 
             if ( map[i][j].item == BATERIA                 ) {
@@ -101,20 +101,23 @@ void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica ){
         int x = fabrica[i].pos.x;
         int y = fabrica[i].pos.y;
         if ( fabrica[i].item == BATERIA                 ) {
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"gold\";stroke-width:2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"gold\";stroke-width:2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"gold\" stroke-width=\"2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"gold\" stroke-width=\"2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
         } else if ( fabrica[i].item == BRACO_SOLDA      ) {
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"mediumspringgreen\";stroke-width:2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"mediumspringgreen\";stroke-width:2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"mediumspringgreen\" stroke-width=\"2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"mediumspringgreen\" stroke-width=\"2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
         } else if ( fabrica[i].item == BOMBA            ) {
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"mediumspringgreen\";stroke-width:2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"mediumspringgreen\";stroke-width:2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"steelblue\" stroke-width=\"2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"steelblue\" stroke-width=\"2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
         } else if ( fabrica[i].item == REFRIGERACAO     ) {
-            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"pink\";stroke-width:2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"pink\";stroke-width:2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"pink\" stroke-width=\"2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"pink\" stroke-width=\"2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
         } else if ( fabrica[i].item == BRACO_PNEUMATICO ) {
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"peru\";stroke-width:2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
-			fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke=\"peru\";stroke-width:2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"peru\" stroke-width=\"2\" />\n", (x * scale - 5), (y * scale - 5), (x * scale + 5), (y * scale + 5)) ;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" stroke=\"peru\" stroke-width=\"2\" />\n", (x * scale + 5), (y * scale - 5), (x * scale - 5), (y * scale + 5)) ;
+        } else {
+            printf("Invalid enum!!\n");
+            abort();
         }
     }
 
