@@ -6,7 +6,6 @@
 
 #include "main.h"
 #include "a_star.h"
-#include "cu.h"
 
 void reset_map(_square **map) {
     for ( int i = 0; i < 42; ++i ){
@@ -20,26 +19,7 @@ void reset_map(_square **map) {
     }
 }
 
-void load_oracle ( _square **map ){
-    int hue;
-    FILE *file = fopen("cu.dat", "rt");
-    for ( int i = 0 ; i < 42 ; i++ ) {
-        for ( int j = 0 ; j < 42 ; j++ ) {
-            fscanf(file, "%d", &hue);
-            map[j][i].visited = false;
-            map[j][i].path    = false;
-            map[j][i].x       = i;
-            map[j][i].y       = j;
-            map[j][i].heur    = 0;
-            map[j][i].oracle  = hue;
-        }
-    }
-    fclose(file);
-}
-
 void as_InitializePosition ( _square **map, _pos q, int distance ){
-    //load_oracle(map);
-
     for ( int i = 0; i < 42; ++i ){
         for ( int j = 0; j < 42; ++j ){
             _pos p;
@@ -50,37 +30,33 @@ void as_InitializePosition ( _square **map, _pos q, int distance ){
 
             switch ( distance ) {
                 case 1:
-                    map[i][j].heur = euclidian_distance(p, q) * 1.0;
+                    map[i][j].heur = euclidian_distance ( p, q) * 1.0;
                     break;
                 case 2:
-                    map[i][j].heur = euclidian_distance(p, q) * 2.0;
+                    map[i][j].heur = euclidian_distance ( p, q) * 2.0;
                     break;
                 case 3:
-                    map[i][j].heur = manhattan_distance(p, q) * 1.0;
+                    map[i][j].heur = manhattan_distance ( p, q) * 1.0;
                     break;
                 case 4:
-                    map[i][j].heur = manhattan_distance(p, q) * 2.0;
+                    map[i][j].heur = manhattan_distance ( p, q) * 2.0;
                     break;
                 case 5:
-                    map[i][j].heur = minkowski_distance(p, q, 0.75);
+                    map[i][j].heur = minkowski_distance ( p, q, 0.75);
                     break;
                 case 6:
-                    map[i][j].heur = renan_distance(p, q);
+                    map[i][j].heur = renan_distance     ( p, q);
                     break;
                 case 7:
-                    map[i][j].heur = chebyshev_distance(p, q) * 1;
+                    map[i][j].heur = chebyshev_distance ( p, q) * 1;
                     break;
                 case 8:
-                    map[i][j].heur = canberra_distance(p, q) * 25.0;
+                    map[i][j].heur = canberra_distance  ( p, q) * 25.0;
                     break;
                 case 9:
-                    map[i][j].heur = andressa_distance(p, q) * 25.0;
+                    map[i][j].heur = andressa_distance  ( p, q) * 25.0;
                     break;
             }
-            //map[i][j].heur /= 5.0;
-            //map[i][j].heur = map[i][j].oracle;
-            //map[i][j].heur = 0;
-            //printf("%d \t %d \t %f \t %f \t %f\n", i, j, map[i][j].heur, map[i][j].oracle, map[i][j].oracle - map[i][j].heur);
         }
     }
 }
@@ -128,16 +104,12 @@ int a_star ( _square** map, _pos start, _pos stop, int distance ){
 
     int custo_total = map[expandedNode.x][expandedNode.y].cu;
 
-    //printf( "%d ", map[expandedNode.x][expandedNode.y].cu );
-
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
-        //printf("%d\n", CostByType( map[aux.x][aux.y].type ));
         map[aux.x][aux.y].path = true;
         expandedNode.x = map[aux.x][aux.y].xx;
         expandedNode.y = map[aux.x][aux.y].yy;
     }
-    //printf("%d\n", CostByType( map[expandedNode.x][expandedNode.y].type ));
 
     return custo_total;
 }
@@ -194,7 +166,6 @@ bool IsInFrontier ( std::vector<_square> & frontier, int x, int y ){
     int i = 0;
 
     while ( i < (int)frontier.size() ){
-       // printf("verificando fronteira\n");
         if ( frontier[i].x == x && frontier[i].y == y ){
             frontier.erase( frontier.begin()+i );
             break;
@@ -205,9 +176,7 @@ bool IsInFrontier ( std::vector<_square> & frontier, int x, int y ){
 }
 
 int CostByType ( int type ){
-    if ( type == 0 )
-        return 1;
-    return  5 * type;
+    return  type == 0 ? 1 : 5 * type;
 }
 
 void VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, _square father ){
