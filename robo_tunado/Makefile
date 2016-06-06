@@ -1,7 +1,17 @@
 CC=g++
-#CFLAGS=-g -I/usr/local/include -lallegro_ttf -lallegro_font -lallegro_image -lallegro_primitives -L/usr/local/lib -lallegro
-CFLAGS=-g# -I/usr/local/include -lallegro_ttf -lallegro_font -lallegro_image -lallegro_primitives -L/usr/local/lib -lallegro
-SOURCE=main.cpp map.cpp cu.cpp a_star.cpp
+CFLAGS=-c -Wall --std=c++11
+CFLAGSL=-lpthread
+LDFLAGS=
 
-all:
-	$(CC) $(SOURCE) $(CFLAGS) -o magic
+SOURCES=main.cpp a_star.cpp map.cpp
+
+OBJECTS=$(SOURCES:.cpp=.o)
+	EXECUTABLE=magic
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	    $(CC) $(LDFLAGS) $(OBJECTS) -o $@ $(CFLAGSL)
+
+.cpp.o:
+	    $(CC) $(CFLAGS) $< -o $@ $(CFLAGSL)
