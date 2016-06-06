@@ -20,5 +20,8 @@ double andressa_distance(_pos p, _pos q);
 
 void get_best_neighbor ( _square **map, _square n, std::vector<_square> & frontier, _square father );
 void as_VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, _square father );
+void VisitNeighbor ( _square **map, _square n, std::vector<_square> & frontier, _square father );
+bool IsInFrontier ( std::vector<_square> & frontier, int x, int y );
+int CostByType ( int type );
 
 #endif
