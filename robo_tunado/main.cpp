@@ -14,27 +14,19 @@
 
 #include "map.h"
 #include "main.h"
-#include "cu.h"
+#include "robo.h"
 #include "a_star.h"
 
-void init_robo(_robo *robo){
-    robo->nMoves = 0;
-    robo->totalCost = 0;
-    robo->pos.x = rand()%42;
-    robo->pos.y = rand()%42;
-}
-
-int main(int argc, char *argv[]) {
+int main() {
     FILE *file = fopen("Robo_ambiente.txt", "rt");
-    int width = 42;
+    int width  = 42;
     int heigth = 42;
 
     _fabrica *fabrica;
-
     _square **map;
-    _data data;
-
     _robo robo;
+
+    srand(time(NULL));
 
     map     = (_square**  ) malloc ( sizeof(_square*) * width );
     fabrica = ( _fabrica* ) malloc ( sizeof(_fabrica) * 5     );
@@ -42,24 +34,25 @@ int main(int argc, char *argv[]) {
         map[i] = (_square*) malloc ( sizeof(_square) * heigth );
 
     init(fabrica, map, file);
+    init_robo(&robo);
 
     // Main loop
     int iters = 0;
-    while ( true && iters < 10 ) {
+    do {
+        if ( robo.tomove.size() == 0 ) {
+            robo.goingTo.x = rand() % 42;
+            robo.goingTo.y = rand() % 42;
+
+            robo.tomove = a_star(map, robo.pos, robo.goingTo, 2);
+        }
+
+        update_pos(&robo, map);
+
+        printf("Robot @ (%d, %d) going to (%d, %d)\n", robo.pos.x, robo.pos.y, robo.goingTo.x, robo.goingTo.y);
+
+        printfImage(map, robo.pos, robo.goingTo, fabrica, iters);
         iters++;
-    }
-
-    //data.cost = a_star(map, start_pos, end_pos, 0);
-
-    //printfImage(map, start_pos, end_pos, fabrica);
-
-    //_pos pos = end_pos;
-
-    //do {
-        //_pos bos = pos;
-        //pos.x = map[bos.x][bos.y].xx;
-        //pos.y = map[bos.x][bos.y].yy;
-    //} while ( pos.x != start_pos.x || pos.y != start_pos.y );
+    } while ( true && (int)robo.tomove.size() > 0 );
 
     for ( int i = 0 ; i < 42 ; i++ )
         free(map[i]);

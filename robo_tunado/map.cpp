@@ -3,15 +3,19 @@
 
 #include "map.h"
 
-void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica ){
-    FILE *out = fopen("out.svg", "wt");
+void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica, int iter ){
+    char name[256];
+    sprintf(name, "out_%08d.svg", iter);
+    FILE *out = fopen(name, "wt");
+    bool draw_path = (start.x != stop.x || start.y != stop.y ) ? true : false;
 
     int sizeX = 42;
     int sizeY = 42;
     int scale = 20;
 
-    int visitados = 0;
-    int caminho   = 0;
+    if ( !draw_path ){
+        printf("%d %d %d %d\n", start.x, start.y, stop.x, stop.y);
+    }
 
     fprintf(out, "<?xml version=\"1.0\" standalone=\"no\"?>\n");
     fprintf(out, "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n");
@@ -45,22 +49,20 @@ void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica ){
             }
 
             //if ( map[i][j].visited ) {
-            //visitados++;
-            //fprintf(out, "<circle cx=\"");
-            //fprintf(out, "%d", (i*scale));
-            //fprintf(out, "\" cy=\"");
-            //fprintf(out, "%d", (j*scale));
-            //fprintf(out, "\" r=\"%d\" stroke=\"aqua\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
+                //fprintf(out, "<circle cx=\"");
+                //fprintf(out, "%d", (i*scale));
+                //fprintf(out, "\" cy=\"");
+                //fprintf(out, "%d", (j*scale));
+                //fprintf(out, "\" r=\"%d\" stroke=\"aqua\" stroke-width=\"1\" fill=\"lawngreen\"/>\n", scale/8);
             //}
 
-            //if ( map[i][j].path ) {
-            //caminho++;
-            //fprintf(out, "<circle cx=\"");
-            //fprintf(out, "%d", (i*scale));
-            //fprintf(out, "\" cy=\"");
-            //fprintf(out, "%d", (j*scale));
-            //fprintf(out, "\" r=\"%d\" stroke=\"black\" stroke-width=\"1\" fill=\"black\"/>\n", scale/5);
-            //}
+            if ( map[i][j].path ) {
+                fprintf(out, "<circle cx=\"");
+                fprintf(out, "%d", (i*scale));
+                fprintf(out, "\" cy=\"");
+                fprintf(out, "%d", (j*scale));
+                fprintf(out, "\" r=\"%d\" stroke=\"black\" stroke-width=\"1\" fill=\"black\"/>\n", scale/5);
+            }
 
             if ( map[i][j].item == BATERIA                 ) {
                 fprintf(out, "<circle cx=\"");
@@ -121,30 +123,23 @@ void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica ){
         }
     }
 
-    for ( int i = 0 ; i < 42 ; i++ ){
-        for ( int j = 0 ; j < 42 ; j++ ){
-            if ( !map[i][j].path && map[i][j].xx != -1 ) {
-                //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:aqua;stroke-width:2\" />\n", i * scale, j * scale, map[i][j].xx * scale, map[i][j].yy * scale);
-            }
-        }
+    if ( stop.x >= 0 && draw_path) {
+        _pos pos = stop;
+
+        do {
+            _pos bos = pos;
+            pos.x = map[bos.x][bos.y].xx;
+            pos.y = map[bos.x][bos.y].yy;
+            fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
+        } while ( (pos.x != start.x || pos.y != start.y) && pos.x >= 0 );
     }
 
-    _pos pos = stop;
+    fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (stop.x * scale - 5), (stop.y * scale - 5), (stop.x * scale + 5), (stop.y * scale + 5)) ;
+    fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (stop.x * scale + 5), (stop.y * scale - 5), (stop.x * scale - 5), (stop.y * scale + 5)) ;
 
-    do {
-        _pos bos = pos;
-        pos.x = map[bos.x][bos.y].xx;
-        pos.y = map[bos.x][bos.y].yy;
-        //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 0);stroke-width:2\" />\n", pos.x * scale, pos.y * scale, bos.x * scale, bos.y * scale);
-    } while ( pos.x != start.x || pos.y != start.y );
-
-    //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 255);stroke-width:2\" />\n", (start.x * scale - 5), (start.y * scale - 5), (start.x * scale + 5), (start.y * scale + 5)) ;
-    //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 255);stroke-width:2\" />\n", (start.x * scale + 5), (start.y * scale - 5), (start.x * scale - 5), (start.y * scale + 5)) ;
-
-    //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (stop.x * scale - 5), (stop.y * scale - 5), (stop.x * scale + 5), (stop.y * scale + 5)) ;
-    //fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(255, 0, 0);stroke-width:2\" />\n", (stop.x * scale + 5), (stop.y * scale - 5), (stop.x * scale - 5), (stop.y * scale + 5)) ;
+    fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 255);stroke-width:2\" />\n", (start.x * scale - 5), (start.y * scale - 5), (start.x * scale + 5), (start.y * scale + 5)) ;
+    fprintf(out, "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:rgb(0, 0, 255);stroke-width:2\" />\n", (start.x * scale + 5), (start.y * scale - 5), (start.x * scale - 5), (start.y * scale + 5)) ;
     fprintf(out, "</svg>\n");
 
-    printf("%d ", visitados);
-    printf("%d\n", caminho);
+    fclose(out);
 }

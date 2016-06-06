@@ -65,10 +65,12 @@ bool as_CompareCu ( _square a, _square b ){
     return a.cu + a.heur < b.cu + b.heur;
 }
 
-int a_star ( _square** map, _pos start, _pos stop, int distance ){
+std::vector<_pos> a_star ( _square** map, _pos start, _pos stop, int distance ){
     std::vector <_square> frontier;
+    std::vector <_pos   > path;
     _square expandedNode;
 
+    reset_map(map);
     as_InitializePosition ( map, stop, distance );
 
     map[start.x][start.y].cu = CostByType(map[start.x][start.y].type);
@@ -102,16 +104,20 @@ int a_star ( _square** map, _pos start, _pos stop, int distance ){
 
     frontier.clear();
 
-    int custo_total = map[expandedNode.x][expandedNode.y].cu;
-
     while ( expandedNode.x != start.x || expandedNode.y != start.y ) {
         _square aux = expandedNode;
         map[aux.x][aux.y].path = true;
         expandedNode.x = map[aux.x][aux.y].xx;
         expandedNode.y = map[aux.x][aux.y].yy;
+
+        _pos pos;
+        pos.x = aux.x;
+        pos.y = aux.y;
+
+        path.push_back(pos);
     }
 
-    return custo_total;
+    return path;
 }
 
 int manhattan_distance(_pos a, _pos b){

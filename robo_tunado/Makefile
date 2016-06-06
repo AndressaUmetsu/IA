@@ -1,9 +1,9 @@
 CC=g++
-CFLAGS=-c -Wall --std=c++11
+CFLAGS=-c -Wall --std=c++11 -g
 CFLAGSL=-lpthread
 LDFLAGS=
 
-SOURCES=main.cpp a_star.cpp map.cpp
+SOURCES=main.cpp a_star.cpp map.cpp robo.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
 	EXECUTABLE=magic

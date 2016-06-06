@@ -2,9 +2,9 @@
 #define _MAIN
 
 #include <vector>
+#include "stdio.h"
 
 typedef enum {BATERIA, BRACO_SOLDA, BOMBA, REFRIGERACAO, BRACO_PNEUMATICO, NENHUM} _item;
-typedef enum {SEARCH, DELIVER} _action;
 
 typedef struct {
     int  type;
@@ -49,18 +49,6 @@ typedef struct {
     _pos pos;
     _item item;
 }_item_pos;
-
-
-typedef struct {
-    _pos pos;
-    std::vector<_item> bag;
-    std::vector<_pos>  visited;
-    std::vector<_pos> tomove;
-    _action action;
-
-    int nMoves;
-    int totalCost;
-}_robo;
 
 _data magic( _pos start_pos, _pos end_pos, int method, int distance) ;
 void init(_fabrica *fabrica, _square** map, FILE* file);
