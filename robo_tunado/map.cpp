@@ -3,19 +3,19 @@
 
 #include "map.h"
 
-void printfImage(_square **map, _pos start, _pos stop, _fabrica* fabrica, int iter ){
+void printfImage(_square **map, _robo *robo, _fabrica* fabrica, int iter ){
     char name[256];
     sprintf(name, "out_%08d.svg", iter);
     FILE *out = fopen(name, "wt");
+
+    _pos start = robo->pos;
+    _pos stop  = robo->goingTo;
+
     bool draw_path = (start.x != stop.x || start.y != stop.y ) ? true : false;
 
     int sizeX = 42;
     int sizeY = 42;
     int scale = 20;
-
-    if ( !draw_path ){
-        printf("%d %d %d %d\n", start.x, start.y, stop.x, stop.y);
-    }
 
     fprintf(out, "<?xml version=\"1.0\" standalone=\"no\"?>\n");
     fprintf(out, "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n");

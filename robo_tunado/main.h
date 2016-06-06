@@ -15,7 +15,10 @@ typedef struct {
     int cu;
     float heur;
     float oracle;
+
     _item item;
+    bool isFabrica;
+    bool isItem;
 } _square;
 
 typedef struct {
@@ -48,6 +51,8 @@ typedef struct {
 typedef struct {
     _pos pos;
     _item item;
+    bool isFabrica;
+    bool isItem;
 }_item_pos;
 
 _data magic( _pos start_pos, _pos end_pos, int method, int distance) ;

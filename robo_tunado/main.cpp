@@ -44,15 +44,17 @@ int main() {
             robo.goingTo.y = rand() % 42;
 
             robo.tomove = a_star(map, robo.pos, robo.goingTo, 2);
+            robo.canMove = false;
+
+            printf("Robot @ (%2d, %2d) going to (%2d, %2d)\n", robo.pos.x, robo.pos.y, robo.goingTo.x, robo.goingTo.y);
         }
 
         update_pos(&robo, map);
 
-        printf("Robot @ (%d, %d) going to (%d, %d)\n", robo.pos.x, robo.pos.y, robo.goingTo.x, robo.goingTo.y);
-
-        printfImage(map, robo.pos, robo.goingTo, fabrica, iters);
+        printfImage(map, &robo, fabrica, iters);
         iters++;
-    } while ( true && (int)robo.tomove.size() > 0 );
+    } while ( iters < 100 );
+    //} while ( true && (int)robo.tomove.size() > 0 );
 
     for ( int i = 0 ; i < 42 ; i++ )
         free(map[i]);
@@ -74,24 +76,26 @@ void init(_fabrica *fabrica, _square** map, FILE* file){
     for ( int i = 0 ; i < 42 ; i++ ) {
         for ( int j = 0 ; j < 42 ; j++ ) {
             fscanf(file, "%d", &hue);
-            map[j][i].type    = hue ;
-            map[j][i].visited = false;
-            map[j][i].path    = false;
-            map[j][i].x       = -1;
-            map[j][i].y       = -1;
-            map[j][i].xx      = -1;
-            map[j][i].yy      = -1;
-            map[j][i].item    = NENHUM;
-            //printf("%d ", hue);
+            map[j][i].type      = hue ;
+            map[j][i].visited   = false;
+            map[j][i].path      = false;
+            map[j][i].x         = -1;
+            map[j][i].y         = -1;
+            map[j][i].xx        = -1;
+            map[j][i].yy        = -1;
+            map[j][i].item      = NENHUM;
+            map[i][j].isItem    = false;
+            map[i][j].isFabrica = false;
         }
-        //puts("");
     }
 
     for ( int i = 0 ; i < 5 ; i++ ) {
-        int x = rand() % 42;
-        int y = rand() % 42;
-        fabrica[i].pos.x = x;
-        fabrica[i].pos.y = y;
+        int x               = rand() % 42;
+        int y               = rand() % 42;
+        fabrica[i].pos.x    = x;
+        fabrica[i].pos.y    = y;
+        map[x][y].item      = fabrica[i].item;
+        map[x][y].isFabrica = fabrica[i].item;
     }
 
     printf("--- Fabricas ---\n");
@@ -105,41 +109,46 @@ void init(_fabrica *fabrica, _square** map, FILE* file){
     printf("\n--- Itens ---\n");
 
     for ( int i = 0 ; i < 10 ; i++ ) {
-        int x = rand() % 42;
-        int y = rand() % 42;
-        map[x][y].item = BATERIA;
+        int x            = rand() % 42;
+        int y            = rand() % 42;
+        map[x][y].item   = BATERIA;
+        map[x][y].isItem = true;
         printf("BATERIA %d                 -> (%d, %d)\n", i, x, y);
     }
     printf("\n");
 
     for ( int i = 0 ; i < 8 ; i++ ) {
-        int x = rand() % 42;
-        int y = rand() % 42;
-        map[x][y].item = BRACO_SOLDA;
+        int x            = rand() % 42;
+        int y            = rand() % 42;
+        map[x][y].item   = BRACO_SOLDA;
+        map[x][y].isItem = true;
         printf("BRACO_SOLDA %d             -> (%d, %d)\n", i, x, y);
     }
     printf("\n");
 
     for ( int i = 0 ; i < 6 ; i++ ) {
-        int x = rand() % 42;
-        int y = rand() % 42;
-        map[x][y].item = BOMBA;
+        int x            = rand() % 42;
+        int y            = rand() % 42;
+        map[x][y].item   = BOMBA;
+        map[x][y].isItem = true;
         printf("BOMBA %d                   -> (%d, %d)\n", i, x, y);
     }
     printf("\n");
 
     for ( int i = 0 ; i < 4 ; i++ ) {
-        int x = rand() % 42;
-        int y = rand() % 42;
-        map[x][y].item = REFRIGERACAO;
+        int x            = rand() % 42;
+        int y            = rand() % 42;
+        map[x][y].item   = REFRIGERACAO;
+        map[x][y].isItem = true;
         printf("REFRIGERACAO %d            -> (%d, %d)\n", i, x, y);
     }
     printf("\n");
 
     for ( int i = 0 ; i < 2 ; i++ ) {
-        int x = rand() % 42;
-        int y = rand() % 42;
-        map[x][y].item = BRACO_PNEUMATICO;
+        int x            = rand() % 42;
+        int y            = rand() % 42;
+        map[x][y].item   = BRACO_PNEUMATICO;
+        map[x][y].isItem = true;
         printf("BRACO_PNEUMATICO %d        -> (%d, %d)\n", i, x, y);
     }
     printf("-------------\n");

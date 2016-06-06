@@ -10,8 +10,11 @@ typedef struct {
     _pos goingTo;
     std::vector<_item> bag;
     std::vector<_pos>  visited;
+    std::vector<_pos>  notVisited;
     std::vector<_pos>  tomove;
     _action action;
+
+    bool canMove;
 
     int nMoves;
     int totalCost;
@@ -19,5 +22,6 @@ typedef struct {
 
 void init_robo(_robo *robo);
 void update_pos(_robo *robo, _square **map);
+void update_visited(_robo *robo, _pos pos);
 
 #endif /* ROBO_H */
