@@ -19,3 +19,4 @@ $(EXECUTABLE): $(OBJECTS)
 .PHONY: clean
 clean:
 	$(RM) $(OBJECTS) $(EXECUTABLE)
+	$(RM) *.svg
