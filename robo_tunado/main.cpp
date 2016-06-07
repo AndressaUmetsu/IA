@@ -31,7 +31,9 @@ int main() {
 
     srand(hue);
     srand48(hue);
-    //printf("%d\n", hue);
+    printf("--- Starting ---\n");
+    printf("seed = %ld\n", hue);
+    printf("----------------\n");
 
     map     = (_square**  ) malloc ( sizeof(_square*) * width );
     fabrica = ( _fabrica* ) malloc ( sizeof(_fabrica) * 5     );
