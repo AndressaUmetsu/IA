@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <cstdlib>
 
 #include "robo.h"
@@ -5,9 +6,9 @@
 
 void update_pos(_robo *robo, _square **map){
     if ( robo->tomove.size() == 0 ) {
-        //fprintf(stderr, "Robot has no moves left!!\n");
-        //abort();
-        robo_pickup_item(robo, map);
+        fprintf(stderr, "Robot has no moves left!!\n");
+        abort();
+        //robo_pickup_item(robo, map);
     } else if ( robo->canMove ) {
         robo->pos = robo->tomove.back();
         robo->tomove.pop_back();
@@ -91,7 +92,22 @@ void robo_pickup_item(_robo *robo, _square **map){
         printf("Robot @ (%2d, %2d) picked up %d\n", x, y, map[x][y].item);
         map[x][y].item   = NENHUM;
     } else {
-        printf("%d Robot @ (%2d, %2d) picked up %d\n", map[x][y].isItem, x, y, map[x][y].item);
-        // ??
+        fprintf(stderr, "NOOOOOOO\n");
+        abort();
+    }
+}
+
+_pos get_random_pos(_robo robo){
+    double chance = 1.0/(double)robo.notVisited.size();
+    _pos pos;
+    pos.x = -1;
+    pos.y = -1;
+    while ( true ) {
+        for (int i = 0; i < (int)robo.notVisited.size(); ++i) {
+            if ( drand48() < chance ) {
+                pos = robo.notVisited[i];
+                return pos;
+            }
+        }
     }
 }

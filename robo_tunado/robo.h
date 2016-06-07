@@ -26,5 +26,6 @@ void update_pos(_robo *robo, _square **map);
 void update_visited(_robo *robo, _pos pos);
 std::vector<_item_pos> vision(_robo *robo, _square **map);
 void robo_pickup_item(_robo *robo, _square **map);
+_pos get_random_pos(_robo robo);
 
 #endif /* ROBO_H */
