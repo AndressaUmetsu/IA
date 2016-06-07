@@ -3,6 +3,7 @@
 
 #include "robo.h"
 #include "main.h"
+#include "a_star.h"
 
 void update_pos(_robo *robo, _square **map){
     if ( robo->tomove.size() == 0 ) {
@@ -13,6 +14,7 @@ void update_pos(_robo *robo, _square **map){
         robo->pos = robo->tomove.back();
         robo->tomove.pop_back();
         robo->nMoves++;
+        robo->totalCost += CostByType(map[robo->pos.x][robo->pos.y].type);
         map[robo->pos.x][robo->pos.y].path = false;
     } else {
         robo->canMove = true;
@@ -92,7 +94,7 @@ void robo_pickup_item(_robo *robo, _square **map){
         printf("Robot @ (%2d, %2d) picked up %d\n", x, y, map[x][y].item);
         map[x][y].item   = NENHUM;
     } else {
-        fprintf(stderr, "NOOOOOOO\n");
+        fprintf(stderr, "Tried to pickup something that is not an item\n");
         abort();
     }
 }
