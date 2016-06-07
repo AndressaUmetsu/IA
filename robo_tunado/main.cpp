@@ -26,7 +26,11 @@ int main() {
     _square **map;
     _robo robo;
 
-    srand(time(NULL));
+    long hue = time(NULL);
+    hue = 1465296063;
+
+    srand(hue);
+    //printf("%d\n", hue);
 
     map     = (_square**  ) malloc ( sizeof(_square*) * width );
     fabrica = ( _fabrica* ) malloc ( sizeof(_fabrica) * 5     );
@@ -39,7 +43,12 @@ int main() {
     // Main loop
     int iters = 0;
     do {
-        if ( robo.tomove.size() == 0 ) {
+        if ( robo.tomove.size() == 0 && ( robo.action == PICKUP ) ) {
+            robo_pickup_item(&robo, map);
+            robo.action = SEARCH;
+        }
+
+        if ( robo.tomove.size() == 0 && ( robo.action == SEARCH || robo.action == DELIVER ) ) {
             robo.goingTo.x = rand() % 42;
             robo.goingTo.y = rand() % 42;
 
@@ -49,6 +58,39 @@ int main() {
             printf("Robot @ (%2d, %2d) going to (%2d, %2d)\n", robo.pos.x, robo.pos.y, robo.goingTo.x, robo.goingTo.y);
         }
 
+        //update_pos(&robo, map);
+        //robo_pickup_item(&robo, map);
+
+        std::vector<_item_pos> saw = vision(&robo, map);
+        for (int i = 0; i < (int)saw.size(); ++i) {
+            _item item = saw[i].item;
+            int count = 0;
+            for (int j = 0; j < (int)robo.bag.size(); ++j) {
+                if ( item == robo.bag[j] ) {
+                    count++;
+                }
+            }
+            for (int j = 0; j < (int)robo.delivered.size(); ++j) {
+                if ( item == robo.delivered[j] ) {
+                    count++;
+                }
+            }
+
+            if ( count < 2 ) {
+                if ( robo.action == SEARCH ) {
+                    robo.action = PICKUP;
+                    robo.tomove.clear();
+                    robo.goingTo = saw[i].pos;
+                    robo.tomove = a_star(map, robo.pos, robo.goingTo, 2);
+                    break;
+                } else if ( robo.action == PICKUP ) {
+                    // TODO
+                } else if ( robo.action == DELIVER ) {
+                    // TODO
+                }
+            }
+            //printf("%d\n", saw[i].item);
+        }
         update_pos(&robo, map);
 
         printfImage(map, &robo, fabrica, iters);
@@ -95,7 +137,7 @@ void init(_fabrica *fabrica, _square** map, FILE* file){
         fabrica[i].pos.x    = x;
         fabrica[i].pos.y    = y;
         map[x][y].item      = fabrica[i].item;
-        map[x][y].isFabrica = fabrica[i].item;
+        map[x][y].isFabrica = true;
     }
 
     printf("--- Fabricas ---\n");

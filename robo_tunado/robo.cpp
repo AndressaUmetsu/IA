@@ -5,8 +5,9 @@
 
 void update_pos(_robo *robo, _square **map){
     if ( robo->tomove.size() == 0 ) {
-        fprintf(stderr, "Robot has no moves left!!\n");
-        abort();
+        //fprintf(stderr, "Robot has no moves left!!\n");
+        //abort();
+        robo_pickup_item(robo, map);
     } else if ( robo->canMove ) {
         robo->pos = robo->tomove.back();
         robo->tomove.pop_back();
@@ -25,6 +26,7 @@ void init_robo(_robo *robo){
     robo->canMove   = false;
     robo->pos.x     = rand() % 42;
     robo->pos.y     = rand() % 42;
+    robo->action    = SEARCH;
 
     for (int i = 0; i < 42; ++i) {
         for (int j = 0; j < 42; ++j) {
@@ -67,7 +69,7 @@ std::vector<_item_pos> vision(_robo *robo, _square **map){
 
             update_visited(robo, pos);
 
-            if ( map[i][j].item != NENHUM ) {
+            if ( map[i][j].item != NENHUM && map[i][j].isItem ) {
                 _item_pos s;
                 s.pos  = pos;
                 s.item = map[i][j].item;
@@ -77,4 +79,19 @@ std::vector<_item_pos> vision(_robo *robo, _square **map){
     }
 
     return saw;
+}
+
+void robo_pickup_item(_robo *robo, _square **map){
+    int x = robo->pos.x;
+    int y = robo->pos.y;
+
+    if ( map[x][y].isItem || ( !map[x][y].isFabrica && map[x][y].item != NENHUM ) ) {
+        robo->bag.push_back(map[x][y].item);
+        map[x][y].isItem = false;
+        printf("Robot @ (%2d, %2d) picked up %d\n", x, y, map[x][y].item);
+        map[x][y].item   = NENHUM;
+    } else {
+        printf("%d Robot @ (%2d, %2d) picked up %d\n", map[x][y].isItem, x, y, map[x][y].item);
+        // ??
+    }
 }
