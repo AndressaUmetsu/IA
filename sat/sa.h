@@ -1,11 +1,20 @@
+#ifndef SA
+#define SA
+
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sstream> 
+#include <sstream>
 
 using namespace std;
 
 typedef struct {
-	int nVariaveis;
-	int nClausulas;	
+	int nVariables;
+	int nClauses;
 } Info;
+
+typedef struct {
+	int *var;
+} Individual;
+
+#endif
