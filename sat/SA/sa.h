@@ -5,6 +5,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <ctime>
+#include <cstdlib>
+
+//#define MAXITERATION ;
 
 using namespace std;
 
@@ -13,8 +17,15 @@ typedef struct {
 	int nClauses;
 } Info;
 
-typedef struct {
-	int *var;
-} Individual;
+//pertubação
+
+//rand
+
+void SimAnnealing( Info info );
+
+int *InitialSolution ( Info info );
+
+int Random ();
+
 
 #endif
