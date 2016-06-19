@@ -8,24 +8,28 @@
 #include <ctime>
 #include <cstdlib>
 
-//#define MAXITERATION ;
+
 
 using namespace std;
 
 typedef struct {
 	int nVariables;
 	int nClauses;
+	int *clauses;
 } Info;
 
-//pertubação
+double LinearCooling ( double t0 , double tn, int i, double n);
 
-//rand
-
-void SimAnnealing( Info info );
-
-int *InitialSolution ( Info info );
+int *SimAnnealing ( Info info );
 
 int Random ();
 
+int *InitialSolution ( int nVariables );
+
+int *Neighbour ( int nVariables );
+
+int *CreateArray ( int n );
+
+double Energy ( int *candidate, Info info );
 
 #endif

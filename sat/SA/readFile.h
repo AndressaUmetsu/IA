@@ -12,6 +12,6 @@
 
 using namespace std;
 
-int *ReadFile (string filename, Info *info);
+void ReadFile (string filename, Info *info);
 
 #endif

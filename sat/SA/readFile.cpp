@@ -1,7 +1,7 @@
 #include "sa.h"
 #include "readFile.h"
 
-int *ReadFile (string filename, Info *info){
+void ReadFile (string filename, Info *info){
 	string line;
 	int *clauses;
 	ifstream input;
@@ -60,5 +60,7 @@ int *ReadFile (string filename, Info *info){
 	}
 
 	input.close();
-	return clauses;
+
+	info->clauses = clauses;
+
 }
