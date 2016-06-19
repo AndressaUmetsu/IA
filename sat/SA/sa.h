@@ -7,8 +7,10 @@
 #include <sstream>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 
-
+#define MAXTEMP 100
+#define NULLTEMP -1
 
 using namespace std;
 
@@ -22,14 +24,18 @@ double LinearCooling ( double t0 , double tn, int i, double n);
 
 int *SimAnnealing ( Info info );
 
-int Random ();
+int Random (int n);
 
 int *InitialSolution ( int nVariables );
 
-int *Neighbour ( int nVariables );
+int *CopyArray(int *a, int n);
 
-int *CreateArray ( int n );
+int *Neighbour ( int *variables, int n, double chance );
 
-double Energy ( int *candidate, Info info );
+int Energy ( int *candidate, Info info );
+
+int Not (int p );
+
+bool Accept (int delta, double temperature);
 
 #endif

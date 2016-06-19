@@ -6,9 +6,21 @@ int main(int argc, char const *argv[])
 	Info info;
 	int *solution;
 	string filename = "uf20-01.cnf";
+
 	ReadFile (filename, &info);
 
+	// cout << info.nVariables << " " << info.nClauses << endl;
+	// for (int i = 0; i < ( info.nClauses )*3;  i++ )
+		// cout << info.clauses[i] << " " ;
+	// cout << endl;
+
 	solution = SimAnnealing (info);
+
+	for (int i = 0; i < info.nVariables; ++i)
+		cout << solution[i] << " " ;
+	cout << endl;
+	
+	cout << Energy (solution, info) << endl;
 
 	return 0;
 }
