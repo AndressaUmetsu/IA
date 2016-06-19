@@ -15,7 +15,7 @@ int *SimAnnealing ( Info info ){
 	srand(seed);
 	
 	int nVariables = info.nVariables;
-	double t = MAXTEMP, tmin = 1e-30;	
+	double t = MAXTEMP, tmin = MINTEMP;	
 	int j = 0;
 
 	int *candidate = InitialSolution ( nVariables );
@@ -36,8 +36,8 @@ int *SimAnnealing ( Info info ){
 		if ( Energy ( candidate, info ) < Energy ( best, info ) )
 			best = CopyArray( candidate, nVariables );
 		j++;
-		t = SigmoidCooling(t, tmin , j, 1000);
-
+		WriteTemperature(t);
+		t = SigmoidCooling(t, tmin , j, 100000);
 	} while( j < 100000 && t > tmin );
 
 

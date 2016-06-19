@@ -1,5 +1,6 @@
 #include "sa.h"
 #include "readFile.h"
+#include "writeFile.h"
 
 int main(int argc, char const *argv[])
 {
@@ -8,11 +9,6 @@ int main(int argc, char const *argv[])
 	string filename = "uf20-01.cnf";
 
 	ReadFile (filename, &info);
-
-	// cout << info.nVariables << " " << info.nClauses << endl;
-	// for (int i = 0; i < ( info.nClauses )*3;  i++ )
-		// cout << info.clauses[i] << " " ;
-	// cout << endl;
 
 	solution = SimAnnealing (info);
 
