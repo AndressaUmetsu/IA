@@ -11,7 +11,7 @@
 
 #include "writeFile.h"
 
-#define MAXTEMP 100
+#define MAXTEMP 20000
 #define MINTEMP 1e-30
 #define NULLTEMP -1
 
