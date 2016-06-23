@@ -4,6 +4,16 @@ double LinearCooling ( double t0 , double tn, int i, double n ){
 	return t0 - i * ( t0 - tn )/n;
 }
 
+double ConstantCooling (double t){
+	return t*0.98;
+}
+
+double Coolling3 (double t0 , double tn, int i, double n){
+	double a = log(t0-tn)/log(n);
+	return t0 - pow (i, a);
+
+}
+
 double SigmoidCooling ( double t0 , double tn, int i, double n ){
 	double a = ( ( t0 - tn ) * ( n + 1 ) ) / n;
 	double b = t0 - a;
@@ -15,7 +25,7 @@ int *SimAnnealing ( Info info ){
 	srand(seed);
 
 	ofstream outTemp;
-	outTemp.open ("outTemp.dat");
+	outTemp.open ("outTemp.csv");
 
 	int nVariables = info.nVariables;
 	double t = MAXTEMP, tmin = MINTEMP;
@@ -41,12 +51,14 @@ int *SimAnnealing ( Info info ){
 		if ( Energy ( candidate, info ) < Energy ( best, info ) )
 			best = CopyArray( candidate, nVariables );
 
+		outTemp << j << " " << t << endl;
 		j++;
-		outTemp << t << endl;
 
-		t = LinearCooling(t, tmin , j, 10000);
+		//t = LinearCooling(t, tmin , j, 10000);
+		t = Coolling3(t, tmin, j, 10000);
+		// t =  ConstantCooling (t);
 		//t = SigmoidCooling(t, tmin , j, 1000000);
-	} while( j < 10000 && t > tmin );
+	} while( j < 10000 && t >tmin );
 
   	outTemp.close();
 

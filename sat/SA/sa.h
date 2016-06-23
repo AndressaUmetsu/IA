@@ -25,6 +25,10 @@ typedef struct {
 
 double LinearCooling ( double t0 , double tn, int i, double n);
 
+double Coolling3 (double t0 , double tn, int i, double n);
+
+double ConstantCooling (double t);
+
 int *SimAnnealing ( Info info );
 
 int Random (int n);
