@@ -1,5 +1,6 @@
 #include "sa.h"
 
+
 double LinearCooling ( double t0 , double tn, int i, double n ){
 	return t0 - i * ( t0 - tn )/n;
 }
