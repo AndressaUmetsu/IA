@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < info.nVariables; ++i)
 		cout << solution[i] << " " ;
 	cout << endl;
-	
+
 	cout << Energy (solution, info) << endl;
 
 	return 0;
