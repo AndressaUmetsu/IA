@@ -1,5 +1,5 @@
-#ifndef WRITEFILE
-#define WRITEFILE 
+#ifndef MEDIA
+#define MEDIA 
 
 #include <iostream>
 #include <fstream>
@@ -8,10 +8,8 @@
 #include <vector>
 #include <cstdlib>
 
-#include "sa.h"
-
 using namespace std;
 
-void WriteTemperature (double temp);
+void Read (string name);
 
 #endif

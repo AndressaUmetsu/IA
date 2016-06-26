@@ -1,7 +1,6 @@
 #include "sa.h"
 
-
-double LinearCooling ( double t0 , double tn, int i, double n ){
+double Cooling0 ( double t0 , double tn, int i, double n ){
 	return t0 - i * ( t0 - tn )/n;
 }
 
@@ -9,36 +8,15 @@ double ConstantCooling (double t){
 	return t*ALFA;
 }
 
-double Coolling6 (double t0 , double tn, int i, double n){
-	double a = 1 + exp( 3 * ( ( n / 2.0 ) - i ) );
-	cout << 1 + exp( 3 * ( ( n / 2.0 ) - i ))  << " " << ( n / 2.0 ) - 1 << endl;
-	return tn + ( ( t0 - tn ) / a );
-}
+int SimAnnealing ( Info info, string filename){
 
-double Coolling3 (double t0 , double tn, int i, double n){
-	double a = log(t0 - tn)/log(n);
-	cout << log(t0 - tn) << " " << t0-tn << endl;
-	return t0 - pow (i, a);
-}
-
-double SigmoidCooling ( double t0 , double tn, int i, double n ){
-	double a = ( ( t0 - tn ) * ( n + 1 ) ) / n;
-	double b = t0 - a;
-	return b + a/(i+1);
-}
-
-int *SimAnnealing ( Info info ){
-	long seed = time(NULL);
-	srand(seed);
-
-	ofstream outTemp, outEnergy;
-	outTemp.open ("outTemp.csv");
-	outEnergy.open ("outEnergy.csv");
+	ofstream out;
+	out.open ( filename.c_str() );
 
 	int nVariables = info.nVariables;
 	double t = MAXTEMP, tmin = MINTEMP;
 	int j = 0;
-
+	
 	int *candidate = InitialSolution ( nVariables );
 	int *best = CopyArray ( candidate, nVariables );
 
@@ -50,33 +28,25 @@ int *SimAnnealing ( Info info ){
 
 		int delta =  energyNew - energyOld;
 
+		out << j << " " << t << " " << energyOld << " " << exp ( (delta/t) ) << endl;
+
 		if ( delta <= 0 )
 			candidate = nextCandidate;
 
 		else if( Accept ( -delta, t ) )
 			candidate = nextCandidate;
 
-		if ( Energy ( candidate, info ) < Energy ( best, info ) )
+		 if ( Energy ( candidate, info ) < Energy ( best, info ) )
 			best = CopyArray( candidate, nVariables );
 
-		outTemp   << j << " " << t << endl;
-		outEnergy << j << " " << t << endl;
+		t = Cooling0(t, tmin , j, N); 
+
 		j++;
 
-		//t = LinearCooling(t, tmin , j, N);
-		//t = Coolling3(t, tmin, j, N);
-		t = Coolling6 (t, tmin, j, N);
-		// t =  ConstantCooling (t);
-		//t = SigmoidCooling(t, tmin , j, N);
-	} while( t > tmin );
+	} while( t > tmin && j < MAXAVAL);
+  	out.close();
 
-  	outTemp   << j << " " << t << endl;
-
-  	outTemp.close();
-  	outEnergy.close();
-
-
-return best;
+	return Energy ( best, info );
 }
 
 int *InitialSolution ( int n ){
@@ -103,7 +73,6 @@ int *Neighbour ( int *variables, int n, double chance ){
 			double probability = Random((chance+C)*100);
 			if (chance > probability/100.0){
 				variables[i] = Not(variables[i]);
-				// cout << "chance change " << chance << " probability " << probability/100 << endl;
 			}
 		}
 		else {
@@ -112,8 +81,6 @@ int *Neighbour ( int *variables, int n, double chance ){
 			if (chance > probability){
 
 				variables[i] = Not(variables[i]);
-
-				// cout << "chance change " << chance << " probability " << probability << endl;
 			}
 		}
 	}
