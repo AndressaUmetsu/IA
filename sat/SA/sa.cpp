@@ -42,7 +42,7 @@ int SimAnnealing ( Info info, string filename, string name){
 
 		else if( Accept ( -delta, t ) ){
 			candidate = nextCandidate;
-			outAccept << t << " " << exp ( (delta/t) ) << endl;
+			outAccept << t << " " << exp ( (-delta/t) ) << endl;
 		}
 
 		if ( Energy ( candidate, info ) < Energy ( best, info ) )

@@ -40,12 +40,13 @@ double Test(string filename, string name){
 	ReadFile (filename, &info);
 
 	for (int i = 0; i < 10; ++i){
+		string nametmp = name;
 		stringstream out, out1;
 		out << "out/out" << i << name << ".csv";
 		filename = out.str();
 
-		out1 << i << name;
-		name = out1.str();
+		out1 << i << nametmp;
+		nametmp = out1.str();
 
 		gettimeofday(&start, NULL);
 		bestEnergy = SimAnnealing (info, filename, name);
