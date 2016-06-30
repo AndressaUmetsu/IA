@@ -1,12 +1,14 @@
 set title 'Temperatura X Tempo'
-set xlabel 'Temperatura'
-set ylabel 'Tempo'
+set xlabel 'Tempo'
+set ylabel 'Temperatura'
 
-#set xtics [10:110]
-#set yrange[0:0.000012]
-set xrange[0:200]
-plot 'out/mediauf20-01.csv' u 1:2 w l title 'oi'
+set terminal pngcairo
+set output 'plots/Temperature.png'
 
-set term jpeg
-set output "tempextime.jpeg"
-replot
+set autoscale
+
+set grid
+set border
+set tics nomirror
+
+plot 'out/mediauf20-01.csv'  u 1:2 w l title 'Temperatura'

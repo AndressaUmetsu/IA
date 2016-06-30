@@ -8,10 +8,17 @@ double ConstantCooling (double t){
 	return t*ALFA;
 }
 
-int SimAnnealing ( Info info, string filename){
+int SimAnnealing ( Info info, string filename, string name){
 
-	ofstream out;
+	ofstream out, outAccept;
 	out.open ( filename.c_str() );
+
+	string fileAccept;
+	stringstream aux;
+	aux << "out/Accept" << name << ".csv";
+	fileAccept = aux.str();
+
+	outAccept.open ( fileAccept.c_str() );
 
 	int nVariables = info.nVariables;
 	double t = MAXTEMP, tmin = MINTEMP;
@@ -33,10 +40,12 @@ int SimAnnealing ( Info info, string filename){
 		if ( delta <= 0 )
 			candidate = nextCandidate;
 
-		else if( Accept ( -delta, t ) )
+		else if( Accept ( -delta, t ) ){
 			candidate = nextCandidate;
+			outAccept << t << " " << exp ( (delta/t) ) << endl;
+		}
 
-		 if ( Energy ( candidate, info ) < Energy ( best, info ) )
+		if ( Energy ( candidate, info ) < Energy ( best, info ) )
 			best = CopyArray( candidate, nVariables );
 
 		t = Cooling0(t, tmin , j, N); 
@@ -45,6 +54,7 @@ int SimAnnealing ( Info info, string filename){
 
 	} while( t > tmin && j < MAXAVAL);
   	out.close();
+  	outAccept.close();
 
 	return Energy ( best, info );
 }

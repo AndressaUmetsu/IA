@@ -34,7 +34,7 @@ double Cooling6 (double t0 , double tn, int i, double n);
 
 double ConstantCooling (double t);
 
-int SimAnnealing ( Info info, string filename);
+int SimAnnealing ( Info info, string filename, string name);
 
 int Random (int n);
 

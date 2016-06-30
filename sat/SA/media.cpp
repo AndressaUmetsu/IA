@@ -1,17 +1,11 @@
 #include "media.h"
 #include <cmath>
 
-int main(int argc, char const *argv[])
-{
-	string str = "uf20-01";
-	Read (str);
-	return 0;
-}
 
 void Read ( string name){
 	string line;
 	ifstream input0, input1, input2, input3, input4, input5, input6, input7, input8, input9 ;
-	
+
 	stringstream out;
 	out << "out/out0" << name << ".csv";
 	string f0 = out.str();
